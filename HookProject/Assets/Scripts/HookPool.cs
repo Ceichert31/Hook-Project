@@ -13,44 +13,21 @@ public class HookPool : MonoBehaviour
     private List<GameObject> hookPool = new();
 
     private Transform hookHolder;
-    private LineRenderer ropeRenderer;
 
     private void Start()
     {
         hookHolder = transform.GetChild(0);
-        ropeRenderer = hookHolder.GetComponent<LineRenderer>();
-        ropeRenderer.positionCount = maxHookCount;
 
         //Populate hook pool
         for (int i = 0; i < maxHookCount; ++i)
         {
             //Add hook
             hookPool.Add(Instantiate(hookPrefab, hookHolder));
-
-            //Add hook to rope render
-            ropeRenderer.SetPosition(i, hookPool[i].transform.position);
             
             //Disable hook
             hookPool[i].SetActive(false);
         }
     }
-
-    private void Update()
-    {
-        //Update activated hooks rope positions
-        for (int i = 0; i < maxHookCount; ++i)
-        {
-            //Reset disable hooks rope
-            if (!hookPool[i].activeSelf)
-            {
-                ropeRenderer.SetPosition(i, Vector3.zero);
-                return;
-            }
-
-            ropeRenderer.SetPosition(i, hookPool[i].transform.position);
-        }
-    }
-
     /// <summary>
     /// Finds an available hook and returns it
     /// </summary>
