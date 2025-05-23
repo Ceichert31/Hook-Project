@@ -1,10 +1,12 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputController : MonoBehaviour
 {
-    [Header("Scriptable Object Reference")]
+    [Header("Event Channel Reference")]
     [SerializeField] private FOVEventChannel fovEventChannel;
+    [SerializeField] private VoidEventChannel hookChannel;
 
     [Header("Camera Settings")]
     [SerializeField] private float sensitivity = 15f;
@@ -192,16 +194,26 @@ public class InputController : MonoBehaviour
     }
     private void ResetDash() => canDash = true;
 
+    VoidEvent voidEvent;
+    private void LeftClick(InputAction.CallbackContext ctx)
+    {
+        hookChannel.CallEvent(voidEvent);
+    }
+
     private void OnEnable()
     {
         playerMovement.Enable();
 
         playerMovement.Dash.performed += Dash;
+
+        playerMovement.Fire.performed += LeftClick;
     }
     private void OnDisable()
     {
         playerMovement.Disable();
 
         playerMovement.Dash.performed -= Dash;
+
+        playerMovement.Fire.performed -= LeftClick;
     }
 }

@@ -1,0 +1,1 @@
+public class VectorEventListener : GenericEventListener<VectorEventChannel, VectorEvent> {}
