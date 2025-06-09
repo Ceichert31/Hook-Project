@@ -47,13 +47,15 @@ public class Interactor : MonoBehaviour
             //Fire raycast to check if object in view is hookable
             if (Physics.SphereCast(spherecastOrigin.position, spherecastRadius, spherecastOrigin.forward, out RaycastHit hit, spherecastRange, hookMask))
             {
-                if (hit.transform.gameObject.TryGetComponent(out MoveableObject instance))
+                if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
                 {
                     //Activate and place hook
                     vectorEvent.Value = hit.point;
 
                     //Send point over and sign to place hook
                     hookPositionChannel.CallEvent(vectorEvent);
+
+                    instance.HookAdded();
                 }
             }
         }

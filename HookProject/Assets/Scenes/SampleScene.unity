@@ -334,8 +334,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5468, y: 2.5468, z: 2.5468}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -877,7 +877,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 48
   m_CollisionDetection: 1
 --- !u!114 &1592003045
 MonoBehaviour:
@@ -892,14 +892,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 3
-  minDistance: 1
+  minDistance: 1.5
   maxSpeed: 5
   minSpeed: 1
-  dragRate: 1
-  groundCastDistance: 1.1
-  heightOffset: 1
+  dragRate: 3
+  groundCastDistance: 1.5
+  heightOffset: 0.5
   maxSlopeAngle: 45
-  offsetStrength: 100
+  offsetStrength: 200
   offsetDamper: 10
   currentHookNum: 0
 --- !u!1 &1813354450

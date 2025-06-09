@@ -92,6 +92,9 @@ public class MoveableObject : MonoBehaviour, IHookable
 
         //Get ground
         Physics.Raycast(transform.position, Vector3.down, out groundHit, groundCastDistance);
+        Debug.DrawRay(transform.position, Vector3.down * 3, Color.yellow);
+
+        //transform.up = new Vector3(targetDirection.x, 0, targetDirection.z);
     }
 
     private void FixedUpdate()
@@ -110,31 +113,35 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private void UpdateMovement()
     {
-        //Eventually replace with lerping speed
-        Vector3 moveForce = (maxSpeed * targetDirection) * playerDist / DIST_MODIFIER;
+        //Apply walk speed to the movement vector
+        Vector3 moveForce = currentHookNum * maxSpeed * targetDirection;
 
-        //Eventually add slope support with a groundcast
+        //Find the angle between the players up position and the groundHit
         float slopeAngle = Vector3.Angle(Vector3.up, groundHit.normal);
 
+        //Set to (0, 0, 0)
         Vector3 yOffsetForce = Vector3.zero;
 
-        //Check if slope is too steep
+        //If surface angle is within max angle
         if (slopeAngle <= maxSlopeAngle)
         {
+            //Find difference between ground distance and the offset
             float yOffsetError = (heightOffset - groundHit.distance);
 
+            //Find the dot product of vector3.up and of the players velocity
             float yOffsetVelocity = Vector3.Dot(Vector3.up, rb.linearVelocity);
 
+            //Set the offset force of the floating rigidbody
             yOffsetForce = Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
         }
+        //Calculate the combinded force between direction and offset
+        Vector3 combinedForces = moveForce + yOffsetForce;
 
-        Vector3 combindedForces = moveForce + yOffsetForce;
-        
-        //Calculate damping forces
+        //Calculate damping forces by multiplying the drag and player velocity
         Vector3 dampingForces = rb.linearVelocity * dragRate;
 
-        //Apply forces to rigidbody
-        rb.AddForce((moveForce - dampingForces) * (100 * Time.fixedDeltaTime));
+        //Add forces to rigidbody
+        rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime));
     }
 }
 public interface IHookable
