@@ -6,15 +6,24 @@ public class HookController : MonoBehaviour
     [Header("DoTween Settings")]
     [SerializeField]
     private float hookPlaceDuration = 2f;
-
+    [SerializeField]
+    private float hookPlaceDelay = 1.3f;
     [SerializeField]
     private float cameraShakeDuration = 0.3f;
     [SerializeField]
     private float cameraShakeStrength = 0.3f;
 
+    [SerializeField] 
+    private Ease easeMode;
+
+    [SerializeField] 
+    private Transform cameraHolder;
+
     private HookPool objectPool;
 
     private GameObject hookObject;
+
+    private float hookPlaceTimer;
 
     private void Start()
     {
@@ -27,8 +36,14 @@ public class HookController : MonoBehaviour
     /// <param name="ctx"></param>
     public void PlaceHook(VectorEvent ctx)
     {
+        //Check if timer is up
+        if (hookPlaceTimer > Time.time) return;
+
+        //Reset timer
+        hookPlaceTimer = Time.time + hookPlaceDelay;
+
         //Get available hook
-        GameObject instance = objectPool.GetHook();
+        GameObject instance = objectPool.GetInstance();
 
         //Unparent
         instance.transform.parent = null;
@@ -40,7 +55,13 @@ public class HookController : MonoBehaviour
     public void DisposeHook(VoidEvent ctx)
     {
         //Remove oldest hook
+        GameObject instance = objectPool.GetOldestInstance();
+
         //Lerp back to holder
+        instance.transform.DOMove(transform.position, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
+
+        //Eventually restructure and move into HookPool
+        //instance.SetActive(false);
     }
 
     /// <summary>
@@ -49,6 +70,6 @@ public class HookController : MonoBehaviour
     private void Shake()
     {
         //Camera shake
-        Camera.main.DOShakePosition(cameraShakeDuration, cameraShakeStrength);
+        cameraHolder.DOShakePosition(cameraShakeDuration, cameraShakeStrength, 10, 90, false, true).SetEase(easeMode);
     }
 }

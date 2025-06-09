@@ -32,7 +32,7 @@ public class HookPool : MonoBehaviour
     /// Finds an available hook and returns it
     /// </summary>
     /// <returns></returns>
-    public GameObject GetHook()
+    public GameObject GetInstance()
     {
         //Find an available hook
         for (int i = 0; i < maxHookCount; ++i)
@@ -46,6 +46,29 @@ public class HookPool : MonoBehaviour
 
         //If no hooks are available, use oldest
         return hookPool[0];
+    }
+
+    /// <summary>
+    /// Gets the oldest active instance, if there are no active instances returns null
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetOldestInstance()
+    {
+        for (int i = 0; i < maxHookCount; ++i)
+        {
+            //Return first active instance
+            if (hookPool[i].activeSelf)
+            {
+                return hookPool[i];
+            }
+        }
+        return null;
+    }
+
+    public void DisableInstance(GameObject instance)
+    {
+        //Search for instance and disable it
+
     }
 
     /// <summary>
