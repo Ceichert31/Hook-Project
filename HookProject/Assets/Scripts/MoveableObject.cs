@@ -39,7 +39,7 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     [SerializeField]
     private float offsetDamper;
-    private Vector3 target => GameManager.Instance.PlayerTransform.position;
+    private Vector3 Target => GameManager.Instance.PlayerTransform.position;
 
     private float playerDist;
 
@@ -50,8 +50,6 @@ public class MoveableObject : MonoBehaviour, IHookable
     private Rigidbody rb;
 
     private RaycastHit groundHit;
-
-    private const float DIST_MODIFIER = 10f;
 
     private void Start()
     {
@@ -88,20 +86,24 @@ public class MoveableObject : MonoBehaviour, IHookable
         if (currentHookNum <= 0) return;
 
         //Calculate player direction when hooked
-        targetDirection = (target - transform.position).normalized;
+        targetDirection = (Target - transform.position).normalized;
 
         //Get ground
         Physics.Raycast(transform.position, Vector3.down, out groundHit, groundCastDistance);
         Debug.DrawRay(transform.position, Vector3.down * 3, Color.yellow);
 
         //transform.up = new Vector3(targetDirection.x, 0, targetDirection.z);
+        //Slowly lerp foward of object towards target direction
+
+        //Improve in future
+        transform.up = Vector3.Slerp(transform.up, rb.linearVelocity.normalized, Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
         if (currentHookNum <= 0) return;
 
-        playerDist = Vector3.Distance(target, transform.position);
+        playerDist = Vector3.Distance(Target, transform.position);
 
         //Calculate and conduct movement using floating RB
         if (playerDist > maxDistance || playerDist < minDistance)

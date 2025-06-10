@@ -893,11 +893,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 3
   minDistance: 1.5
-  maxSpeed: 5
+  maxSpeed: 3
   minSpeed: 1
   dragRate: 3
-  groundCastDistance: 1.5
-  heightOffset: 0.5
+  groundCastDistance: 0.8
+  heightOffset: 0.3
   maxSlopeAngle: 45
   offsetStrength: 200
   offsetDamper: 10
