@@ -580,8 +580,8 @@ Transform:
   m_GameObject: {fileID: 408250077}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.89, y: 1.92, z: -1.34}
-  m_LocalScale: {x: 6.836212, y: 0.25920835, z: 7.56}
+  m_LocalPosition: {x: -21, y: 1.89, z: -1.34}
+  m_LocalScale: {x: 17.221102, y: 0.25920835, z: 10.847844}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1092,7 +1092,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592003039}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5b4df88f5321c3c408b2995483a437de, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   maxSpeed: 3
   minSpeed: 1
   dragRate: 3
-  groundCastDistance: 3
+  groundCastDistance: 5
   heightOffset: 0.5
   maxSlopeAngle: 45
   offsetStrength: 200

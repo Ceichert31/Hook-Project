@@ -96,7 +96,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         //Slowly lerp foward of object towards target direction
 
         //Improve in future
-        transform.up = Vector3.Slerp(transform.up, rb.linearVelocity.normalized, Time.deltaTime);
+        
     }
 
     private void FixedUpdate()
@@ -110,7 +110,6 @@ public class MoveableObject : MonoBehaviour, IHookable
         {
             UpdateMovement();
         }
-      
     }
 
     private void UpdateMovement()
@@ -144,6 +143,9 @@ public class MoveableObject : MonoBehaviour, IHookable
 
         //Add forces to rigidbody
         rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime));
+
+        //Rotate towards move direction
+        transform.up = Vector3.MoveTowards(transform.up, rb.linearVelocity.normalized, Time.deltaTime);
     }
 }
 public interface IHookable
