@@ -655,7 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971451721}
   - component: {fileID: 971451722}
-  - component: {fileID: 971451723}
+  - component: {fileID: 971451725}
   - component: {fileID: 971451724}
   m_Layer: 0
   m_Name: HookController
@@ -698,7 +698,7 @@ MonoBehaviour:
   cameraShakeStrength: 0.27
   easeMode: 10
   cameraHolder: {fileID: 875592336}
---- !u!114 &971451723
+--- !u!114 &971451724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -707,10 +707,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 971451720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5ce85c59e551314397fc950f033da16, type: 3}
+  m_Script: {fileID: 11500000, guid: 7973a1f791dc3e846bcecfea6745291a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventChannel: {fileID: 11400000, guid: fa95798ec9a65324482b08be5e759bb4, type: 2}
+  hookPrefab: {fileID: 3942242188432628518, guid: 35b2a4a5c817ff742b28e949eeb1d8cd, type: 3}
+  maxHookCount: 10
+--- !u!114 &971451725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971451720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db23ef41874455d4d9477cd5b654c50e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventChannel: {fileID: 11400000, guid: 1f39af6316893594c85886ef611a1746, type: 2}
   response:
     m_PersistentCalls:
       m_Calls:
@@ -726,20 +740,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &971451724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971451720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7973a1f791dc3e846bcecfea6745291a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hookPrefab: {fileID: 3942242188432628518, guid: 35b2a4a5c817ff742b28e949eeb1d8cd, type: 3}
-  maxHookCount: 10
 --- !u!1 &1592003039
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fdd4655496c12f42a4f2874a86c7c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hookPositionChannel: {fileID: 11400000, guid: fa95798ec9a65324482b08be5e759bb4, type: 2}
+  hookPositionChannel: {fileID: 11400000, guid: 1f39af6316893594c85886ef611a1746, type: 2}
   hookLayer: 6
   hookMask:
     serializedVersion: 2

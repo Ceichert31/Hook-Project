@@ -5,8 +5,8 @@ public class Interactor : MonoBehaviour
 {
     [Header("Event Channel References")]
     [SerializeField]
-    private VectorEventChannel hookPositionChannel;
-    private VectorEvent vectorEvent;
+    private HookEventChannel hookPositionChannel;
+    private HookEvent hookEvent;
 
 
     [Header("Hook Settings")]
@@ -50,10 +50,11 @@ public class Interactor : MonoBehaviour
                 if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
                 {
                     //Activate and place hook
-                    vectorEvent.Value = hit.point;
+                    hookEvent.Position = hit.point;
+                    hookEvent.Object = hit.transform;
 
                     //Send point over and sign to place hook
-                    hookPositionChannel.CallEvent(vectorEvent);
+                    hookPositionChannel.CallEvent(hookEvent);
 
                     instance.HookAdded();
                 }
