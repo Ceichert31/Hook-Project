@@ -5,7 +5,6 @@ public class HookInstance : MonoBehaviour
     private LineRenderer ropeRenderer;
 
     private Transform parentObject;
-
     private void Awake()
     {
         ropeRenderer = GetComponent<LineRenderer>();
@@ -16,5 +15,10 @@ public class HookInstance : MonoBehaviour
     {
         ropeRenderer.SetPosition(0, parentObject.position);
         ropeRenderer.SetPosition(1, transform.position);
+    }
+
+    public void AttachedToObject()
+    {
+
     }
 }

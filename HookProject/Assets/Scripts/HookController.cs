@@ -34,7 +34,7 @@ public class HookController : MonoBehaviour
     /// Places a hook at given position
     /// </summary>
     /// <param name="ctx"></param>
-    public void PlaceHook(HookEvent ctx)
+    public void PlaceHook(GameObject obj, Vector3 hitPoint)
     {
         //Check if timer is up
         if (hookPlaceTimer > Time.time) return;
@@ -45,11 +45,13 @@ public class HookController : MonoBehaviour
         //Get available hook
         GameObject instance = objectPool.GetInstance();
 
-        //Parent to hooked object
-        instance.transform.parent = ctx.Object;
+        //Unparent
+        instance.transform.parent = obj.transform;
+
+        //instance.GetComponent<HookInstance>().AttachedToObject();
 
         //Move
-        instance.transform.DOMove(ctx.Position, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
+        instance.transform.DOMove(hitPoint, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
     }
 
     public void DisposeHook(VoidEvent ctx)
