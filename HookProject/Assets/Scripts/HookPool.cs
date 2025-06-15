@@ -23,7 +23,7 @@ public class HookPool : MonoBehaviour
         {
             //Add hook
             hookPool.Add(Instantiate(hookPrefab, hookHolder));
-            
+
             //Disable hook
             hookPool[i].SetActive(false);
         }

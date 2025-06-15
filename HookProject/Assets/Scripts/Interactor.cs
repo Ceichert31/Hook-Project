@@ -3,6 +3,12 @@ using NaughtyAttributes;
 using System;
 public class Interactor : MonoBehaviour
 {
+    [Header("Event Channel References")]
+    [SerializeField]
+    private HookEventChannel hookPositionChannel;
+    private HookEvent hookEvent;
+
+
     [Header("Hook Settings")]
     [Layer]
     [SerializeField]
@@ -19,19 +25,15 @@ public class Interactor : MonoBehaviour
     [SerializeField]
     private float spherecastRadius = 1.5f;
 
-    private HookController hookController;
-
     private bool canHook;
 
     //Need:
     //Channel for adding hooks 
     //Channel for removing hooks
-    private void Start()
-    {
-        hookController = GetComponent<HookController>();
-    }
+
 
     //On trigger stay with interactable objects fire raycast to check if object is interactable
+
     private void OnTriggerStay(Collider other)
     {
         //Guard clause
@@ -45,7 +47,17 @@ public class Interactor : MonoBehaviour
             //Fire raycast to check if object in view is hookable
             if (Physics.SphereCast(spherecastOrigin.position, spherecastRadius, spherecastOrigin.forward, out RaycastHit hit, spherecastRange, hookMask))
             {
-                hookController.PlaceHook(hit.collider.gameObject, hit.point);
+                if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
+                {
+                    //Activate and place hook
+                    hookEvent.Position = hit.point;
+                    hookEvent.Object = hit.transform;
+
+                    //Send point over and sign to place hook
+                    hookPositionChannel.CallEvent(hookEvent);
+
+                    instance.HookAdded();
+                }
             }
         }
     }

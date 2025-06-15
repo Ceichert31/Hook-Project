@@ -13,10 +13,10 @@ public class HookController : MonoBehaviour
     [SerializeField]
     private float cameraShakeStrength = 0.3f;
 
-    [SerializeField] 
+    [SerializeField]
     private Ease easeMode;
 
-    [SerializeField] 
+    [SerializeField]
     private Transform cameraHolder;
 
     private HookPool objectPool;
@@ -34,7 +34,7 @@ public class HookController : MonoBehaviour
     /// Places a hook at given position
     /// </summary>
     /// <param name="ctx"></param>
-    public void PlaceHook(GameObject obj, Vector3 hitPoint)
+    public void PlaceHook(HookEvent ctx)
     {
         //Check if timer is up
         if (hookPlaceTimer > Time.time) return;
@@ -45,13 +45,11 @@ public class HookController : MonoBehaviour
         //Get available hook
         GameObject instance = objectPool.GetInstance();
 
-        //Unparent
-        instance.transform.parent = obj.transform;
-
-        //instance.GetComponent<HookInstance>().AttachedToObject();
+        //Parent to hooked object
+        instance.transform.parent = ctx.Object;
 
         //Move
-        instance.transform.DOMove(hitPoint, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
+        instance.transform.DOMove(ctx.Position, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
     }
 
     public void DisposeHook(VoidEvent ctx)
