@@ -1,6 +1,8 @@
 using UnityEngine;
 using NaughtyAttributes;
 using System;
+using UnityEngine.Serialization;
+
 public class Interactor : MonoBehaviour
 {
     [Header("Event Channel References")]
@@ -18,12 +20,12 @@ public class Interactor : MonoBehaviour
     private LayerMask hookMask;
 
     [SerializeField]
-    private Transform spherecastOrigin;
+    private Transform raycastOrigin;
 
     [SerializeField]
-    private float spherecastRange = 5.0f;
+    private float raycastRange = 5.0f;
     [SerializeField]
-    private float spherecastRadius = 1.5f;
+    private float raycastRadius = 1.5f;
 
     private bool canHook;
 
@@ -45,7 +47,7 @@ public class Interactor : MonoBehaviour
             canHook = false;
 
             //Fire raycast to check if object in view is hookable
-            if (Physics.SphereCast(spherecastOrigin.position, spherecastRadius, spherecastOrigin.forward, out RaycastHit hit, spherecastRange, hookMask))
+            if (Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out RaycastHit hit, raycastRange, hookMask))
             {
                 if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
                 {

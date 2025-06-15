@@ -111,18 +111,18 @@ public class MoveableObject : MonoBehaviour, IHookable
         playerDist = Vector3.Distance(Target, transform.position);
 
         //Calculate and conduct movement using floating RB
-        if (playerDist < maxDistance || playerDist < minDistance) return;
-
-        if (isGrounded)
+        if (playerDist > maxDistance && playerDist > minDistance)
         {
-            //Ground logic
-            UpdateMovement();
+            if (isGrounded)
+            {
+                UpdateMovement();
+            }
+            else
+            {
+                UpdateAirMovement();
+            }
         }
-        else
-        {
-            //Air logic
-            UpdateAirMovement();
-        }
+            
     }
 
     private void UpdateMovement()
@@ -158,7 +158,8 @@ public class MoveableObject : MonoBehaviour, IHookable
         rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime));
 
         //Rotate towards move direction
-        transform.up = Vector3.MoveTowards(transform.up, rb.linearVelocity.normalized, Time.deltaTime * rotationSpeed);
+        //transform.up = Vector3.MoveTowards(transform.up, rb.linearVelocity.normalized, Time.deltaTime * rotationSpeed);
+        rb.AddTorque(rb.linearVelocity.normalized * rotationSpeed * (100 * Time.fixedDeltaTime));
     }
 
     private void UpdateAirMovement()
@@ -170,10 +171,10 @@ public class MoveableObject : MonoBehaviour, IHookable
         //Apply upwards force
         Vector3 moveForce = currentHookNum * maxSpeed * targetDirection;
 
-        Vector3 dampingForces = rb.linearVelocity * dragRate;
+        //Vector3 dampingForces = rb.linearVelocity * dragRate;
 
         //Add forces to rigidbody
-        rb.AddForce((moveForce - dampingForces) * (100 * Time.fixedDeltaTime));
+        rb.AddForce((moveForce) * (100 * Time.fixedDeltaTime));
 
         transform.up = Vector3.MoveTowards(transform.up, Vector3.up, Time.deltaTime * rotationSpeed);
     }
