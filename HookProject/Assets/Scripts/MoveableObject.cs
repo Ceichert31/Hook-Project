@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -125,6 +126,7 @@ public class MoveableObject : MonoBehaviour, IHookable
             
     }
 
+    public float targetRot;
     private void UpdateMovement()
     {
         //Apply walk speed to the movement vector
@@ -155,12 +157,24 @@ public class MoveableObject : MonoBehaviour, IHookable
         Vector3 dampingForces = rb.linearVelocity * dragRate;
 
         //Add forces to rigidbody
-        rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime));
+        rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime), ForceMode.Force);
 
         //Rotate towards move direction
         //transform.up = Vector3.MoveTowards(transform.up, rb.linearVelocity.normalized, Time.deltaTime * rotationSpeed);
-        rb.AddTorque(rb.linearVelocity.normalized * rotationSpeed * (100 * Time.fixedDeltaTime));
+        //rb.AddTorque(rb.linearVelocity.normalized * rotationSpeed * (100 * Time.fixedDeltaTime));
+        float angle = Vector2.Angle(new Vector2(transform.up.x, transform.up.z), new Vector2(targetDirection.x, targetDirection.z));
+
+        float torqueForce = (angle - transform.rotation.y) * rotationSpeed;
+
+        rb.AddTorque(Vector3.up * torque * torqueForce, ForceMode.Force);
+
+        Debug.Log($"Angle: {angle}\n TorqueForce: {torqueForce}");
+        Debug.DrawRay(transform.position, targetDirection * 3f, Color.blue);
+        Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
+        Debug.DrawRay(transform.position, transform.forward* 3f, Color.yellow);
     }
+
+    public float torque = 500;
 
     private void UpdateAirMovement()
     {

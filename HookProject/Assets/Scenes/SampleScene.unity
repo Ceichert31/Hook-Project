@@ -1941,7 +1941,7 @@ Transform:
   m_GameObject: {fileID: 1592003039}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071069}
-  m_LocalPosition: {x: 0, y: 0.837, z: 5.07881}
+  m_LocalPosition: {x: 0, y: 0.69, z: 5.07881}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1955,9 +1955,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592003039}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 50
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 50
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1988,16 +1988,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 3
   minDistance: 1
-  maxSpeed: 3
+  maxSpeed: 50
   minSpeed: 1
   dragRate: 3.5
-  rotationSpeed: 3
+  rotationSpeed: 0.01
   groundCastDistance: 1
   heightOffset: 0.5
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
   currentHookNum: 0
+  targetRot: 360
+  torque: 1250
 --- !u!1 &1813354450
 GameObject:
   m_ObjectHideFlags: 0
