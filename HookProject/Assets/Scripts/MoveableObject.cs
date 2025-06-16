@@ -22,6 +22,13 @@ public class MoveableObject : MonoBehaviour, IHookable
     private float rotationSpeed = 0.03f;
     [SerializeField]
     private float torque = 500;
+    [Tooltip("The amount of addition speed given per hook")]
+    [SerializeField] 
+    private float hookNumberMultiplier = 10f;
+
+    [Tooltip("The minimum amount of velocity required for an object to start rotating")]
+    [SerializeField] 
+    private float minRequiredVelocity = 1;
 
     [Header("Floating RB Settings")]
     [SerializeField]
@@ -57,9 +64,6 @@ public class MoveableObject : MonoBehaviour, IHookable
     [SerializeField] private bool showDistanceDebug;
 
     private Vector3 Target => GameManager.Instance.PlayerTransform.position;
-
-    private const float VELOCITY_MIN = 1.5f;
-    private const float HOOK_MULTIPLIER = 6.5f;
 
     private void Start()
     {
@@ -134,7 +138,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         rb.AddForce(CalculateForce(), ForceMode.Force);
 
         //Prevent rotation when under a certain velocity
-        if (rb.linearVelocity.magnitude <= VELOCITY_MIN) return;
+        if (rb.linearVelocity.magnitude <= minRequiredVelocity) return;
 
         //Apply torque
         rb.AddTorque(CalculateTorque(), ForceMode.Force);
@@ -147,7 +151,7 @@ public class MoveableObject : MonoBehaviour, IHookable
     Vector3 CalculateForce()
     {
         //Apply walk speed to the movement vector
-        Vector3 moveForce = (baseSpeed + (currentHookNum * HOOK_MULTIPLIER)) * targetDirection;
+        Vector3 moveForce = (baseSpeed + (currentHookNum * hookNumberMultiplier)) * targetDirection;
 
         //Find the angle between the players up position and the groundHit
         float slopeAngle = Vector3.Angle(Vector3.up, groundHit.normal);
