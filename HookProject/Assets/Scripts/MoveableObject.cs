@@ -51,6 +51,11 @@ public class MoveableObject : MonoBehaviour, IHookable
     [SerializeField]
     private bool enableDebug;
 
+    [ShowIf(nameof(enableDebug))]
+    [SerializeField] private bool showTorqueDebug;
+    [ShowIf(nameof(enableDebug))]
+    [SerializeField] private bool showDistanceDebug;
+
     private Vector3 Target => GameManager.Instance.PlayerTransform.position;
 
     private const float VELOCITY_MIN = 2f;
@@ -103,7 +108,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         //Check if player is within moving distance
         playerDist = Vector3.Distance(Target, transform.position);
 
-        if (enableDebug)
+        if (showDistanceDebug)
         {
             Debug.Log($"Distance to Object {gameObject.name}: {playerDist}");
         }
@@ -180,7 +185,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         float torqueForce = (transform.rotation.y - angle) * rotationSpeed * (100 * Time.fixedDeltaTime);
 
         //Debug
-        if (enableDebug)
+        if (showTorqueDebug)
         {
             Debug.Log($"Angle: {angle}\n TorqueForce: {torqueForce}");
             Debug.DrawRay(transform.position, targetDirection * 3f, Color.blue);

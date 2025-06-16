@@ -1996,8 +1996,10 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
-  currentHookNum: 2
+  currentHookNum: 0
   enableDebug: 1
+  showTorqueDebug: 1
+  showDistanceDebug: 0
 --- !u!1 &1813354450
 GameObject:
   m_ObjectHideFlags: 0
