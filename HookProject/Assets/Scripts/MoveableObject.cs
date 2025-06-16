@@ -58,7 +58,8 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private Vector3 Target => GameManager.Instance.PlayerTransform.position;
 
-    private const float VELOCITY_MIN = 2f;
+    private const float VELOCITY_MIN = 1.5f;
+    private const float HOOK_MULTIPLIER = 6.5f;
 
     private void Start()
     {
@@ -146,7 +147,7 @@ public class MoveableObject : MonoBehaviour, IHookable
     Vector3 CalculateForce()
     {
         //Apply walk speed to the movement vector
-        Vector3 moveForce = currentHookNum * baseSpeed * targetDirection;
+        Vector3 moveForce = (baseSpeed + (currentHookNum * HOOK_MULTIPLIER)) * targetDirection;
 
         //Find the angle between the players up position and the groundHit
         float slopeAngle = Vector3.Angle(Vector3.up, groundHit.normal);
