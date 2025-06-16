@@ -15,17 +15,12 @@ public class Interactor : MonoBehaviour
     [Layer]
     [SerializeField]
     private int hookLayer;
-
     [SerializeField]
     private LayerMask hookMask;
-
     [SerializeField]
     private Transform raycastOrigin;
-
     [SerializeField]
     private float raycastRange = 5.0f;
-    [SerializeField]
-    private float raycastRadius = 1.5f;
 
     private bool canHook;
 

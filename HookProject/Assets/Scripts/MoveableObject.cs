@@ -16,46 +16,44 @@ public class MoveableObject : MonoBehaviour, IHookable
     private float maxDistance = 3f;
     [SerializeField]
     private float minDistance = 1f;
-
     [SerializeField]
-    private float maxSpeed = 5f;
-    [SerializeField]
-    private float minSpeed = 1f;
-
-    [SerializeField]
-    private float dragRate = 1f;
-
+    private float baseSpeed = 5f;
     [SerializeField] 
     private float rotationSpeed = 0.03f;
+    [SerializeField]
+    private float torque = 500;
 
     [Header("Floating RB Settings")]
     [SerializeField]
     private float groundCastDistance = 0.7f;
-
     [SerializeField]
     private float heightOffset = 0.5f;
-
     [SerializeField]
     private float maxSlopeAngle = 45f;
-
     [SerializeField]
     private float offsetStrength = 100f;
-
     [SerializeField]
-    private float offsetDamper;
-    private Vector3 Target => GameManager.Instance.PlayerTransform.position;
+    private float offsetDamper = 10f;
+
+    //Debug
+    [SerializeField] 
+    private int currentHookNum;
 
     private float playerDist;
 
     private Vector3 targetDirection;
-
-    [SerializeField] private int currentHookNum;
 
     private Rigidbody rb;
 
     private RaycastHit groundHit;
 
     private bool isGrounded;
+    [SerializeField]
+    private bool enableDebug;
+
+    private Vector3 Target => GameManager.Instance.PlayerTransform.position;
+
+    private const float VELOCITY_MIN = 2f;
 
     private void Start()
     {
@@ -96,41 +94,54 @@ public class MoveableObject : MonoBehaviour, IHookable
 
         //Get ground
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out groundHit, groundCastDistance);
-        //Debug.DrawRay(transform.position, Vector3.down * 3, Color.yellow);
-
-        //transform.up = new Vector3(targetDirection.x, 0, targetDirection.z);
-        //Slowly lerp foward of object towards target direction
-
-        //Improve in future
-
     }
 
     private void FixedUpdate()
     {
         if (currentHookNum <= 0) return;
 
+        //Check if player is within moving distance
         playerDist = Vector3.Distance(Target, transform.position);
 
-        //Calculate and conduct movement using floating RB
-        if (playerDist > maxDistance && playerDist > minDistance)
+        if (enableDebug)
         {
-            if (isGrounded)
-            {
-                UpdateMovement();
-            }
-            else
-            {
-                UpdateAirMovement();
-            }
+            Debug.Log($"Distance to Object {gameObject.name}: {playerDist}");
         }
-            
-    }
 
-    public float targetRot;
+        if (playerDist <= maxDistance || playerDist <= minDistance) return;
+
+        UpdateMovement();
+
+        //Check whether the object is grounded or not and apply according logic
+        //if (isGrounded)
+        //{
+        //    UpdateMovement();
+        //}
+        //else
+        //{
+        //    UpdateAirMovement();
+        //}
+    }
     private void UpdateMovement()
     {
+        //Add forces to rigidbody
+        rb.AddForce(CalculateForce(), ForceMode.Force);
+
+        //Prevent rotation when under a certain velocity
+        if (rb.linearVelocity.magnitude <= VELOCITY_MIN) return;
+
+        //Apply torque
+        rb.AddTorque(CalculateTorque(), ForceMode.Force);
+    }
+
+    /// <summary>
+    /// Calculates the amount of force nessecary to move forward
+    /// </summary>
+    /// <returns></returns>
+    Vector3 CalculateForce()
+    {
         //Apply walk speed to the movement vector
-        Vector3 moveForce = currentHookNum * maxSpeed * targetDirection;
+        Vector3 moveForce = currentHookNum * baseSpeed * targetDirection;
 
         //Find the angle between the players up position and the groundHit
         float slopeAngle = Vector3.Angle(Vector3.up, groundHit.normal);
@@ -151,30 +162,34 @@ public class MoveableObject : MonoBehaviour, IHookable
             yOffsetForce = Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
         }
         //Calculate the combinded force between direction and offset
-        Vector3 combinedForces = moveForce + yOffsetForce;
+        Vector3 combinedForces = moveForce + yOffsetForce * (100 * Time.fixedDeltaTime);
 
-        //Calculate damping forces by multiplying the drag and player velocity
-        Vector3 dampingForces = rb.linearVelocity * dragRate;
-
-        //Add forces to rigidbody
-        rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime), ForceMode.Force);
-
-        //Rotate towards move direction
-        //transform.up = Vector3.MoveTowards(transform.up, rb.linearVelocity.normalized, Time.deltaTime * rotationSpeed);
-        //rb.AddTorque(rb.linearVelocity.normalized * rotationSpeed * (100 * Time.fixedDeltaTime));
-        float angle = Vector2.Angle(new Vector2(transform.up.x, transform.up.z), new Vector2(targetDirection.x, targetDirection.z));
-
-        float torqueForce = (angle - transform.rotation.y) * rotationSpeed;
-
-        rb.AddTorque(Vector3.up * torque * torqueForce, ForceMode.Force);
-
-        Debug.Log($"Angle: {angle}\n TorqueForce: {torqueForce}");
-        Debug.DrawRay(transform.position, targetDirection * 3f, Color.blue);
-        Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
-        Debug.DrawRay(transform.position, transform.forward* 3f, Color.yellow);
+        return combinedForces;
     }
 
-    public float torque = 500;
+    /// <summary>
+    /// Calculates the amount of torque needed to rotate towards the player
+    /// </summary>
+    /// <returns></returns>
+    Vector3 CalculateTorque()
+    {
+        //Get angle between player position an objects forward position
+        float angle = Vector2.SignedAngle(new Vector2(transform.up.x, transform.up.z), new Vector2(targetDirection.x, targetDirection.z));
+
+        //Calculate the amount of torque force
+        float torqueForce = (transform.rotation.y - angle) * rotationSpeed * (100 * Time.fixedDeltaTime);
+
+        //Debug
+        if (enableDebug)
+        {
+            Debug.Log($"Angle: {angle}\n TorqueForce: {torqueForce}");
+            Debug.DrawRay(transform.position, targetDirection * 3f, Color.blue);
+            Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
+            Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
+        }
+        
+        return (torque * torqueForce) * Vector3.up;
+    }
 
     private void UpdateAirMovement()
     {
@@ -183,14 +198,14 @@ public class MoveableObject : MonoBehaviour, IHookable
         //Rotate towards move direction
 
         //Apply upwards force
-        Vector3 moveForce = currentHookNum * maxSpeed * targetDirection;
+        Vector3 moveForce = currentHookNum * baseSpeed * targetDirection;
 
         //Vector3 dampingForces = rb.linearVelocity * dragRate;
 
         //Add forces to rigidbody
-        rb.AddForce((moveForce) * (100 * Time.fixedDeltaTime));
+        rb.AddForce(moveForce * (100 * Time.fixedDeltaTime));
 
-        transform.up = Vector3.MoveTowards(transform.up, Vector3.up, Time.deltaTime * rotationSpeed);
+        //transform.up = Vector3.MoveTowards(transform.up, Vector3.up, Time.deltaTime * rotationSpeed);
     }
 }
 public interface IHookable
