@@ -16,6 +16,8 @@ public class MoveableObject : MonoBehaviour, IHookable
     private float maxDistance = 3f;
     [SerializeField]
     private float minDistance = 1f;
+    [SerializeField] 
+    private float constrainDistance = 10f;
     [SerializeField]
     private float baseSpeed = 5f;
     [SerializeField] 
@@ -54,6 +56,8 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private RaycastHit groundHit;
 
+    private Vector3 centerOfMass;
+
     private bool isGrounded;
     [SerializeField]
     private bool enableDebug;
@@ -78,6 +82,13 @@ public class MoveableObject : MonoBehaviour, IHookable
     {
         //Add to hook num
         currentHookNum++;
+
+        ////Calculate center of mass
+        //for (int i = 0; i < gameObject.transform.childCount; ++i)
+        //{
+        //    centerOfMass += gameObject.transform.GetChild(i).position;
+        //}
+        //centerOfMass /= gameObject.transform.childCount;
     }
     /// <summary>
     /// Lets an object know a hook has been removed
@@ -91,6 +102,12 @@ public class MoveableObject : MonoBehaviour, IHookable
 
         currentHookNum--;
 
+        ////Calculate center of mass
+        //for (int i = 0; i < gameObject.transform.childCount; ++i)
+        //{
+        //    centerOfMass += gameObject.transform.GetChild(i).position;
+        //}
+        //centerOfMass /= gameObject.transform.childCount;
     }
 
 
@@ -104,11 +121,6 @@ public class MoveableObject : MonoBehaviour, IHookable
 
         //Get ground
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out groundHit, groundCastDistance);
-    }
-
-    private void FixedUpdate()
-    {
-        if (currentHookNum <= 0) return;
 
         //Check if player is within moving distance
         playerDist = Vector3.Distance(Target, transform.position);
@@ -118,19 +130,24 @@ public class MoveableObject : MonoBehaviour, IHookable
             Debug.Log($"Distance to Object {gameObject.name}: {playerDist}");
         }
 
+        //Prevent player from moving too far from the object
+        if (playerDist >= constrainDistance)
+        {
+            //Request force be applied to player
+            //Amount of force = mass
+            //-targetDirection
+
+
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentHookNum <= 0) return;
+
         if (playerDist <= maxDistance || playerDist <= minDistance) return;
 
         UpdateMovement();
-
-        //Check whether the object is grounded or not and apply according logic
-        //if (isGrounded)
-        //{
-        //    UpdateMovement();
-        //}
-        //else
-        //{
-        //    UpdateAirMovement();
-        //}
     }
     private void UpdateMovement()
     {
@@ -201,21 +218,12 @@ public class MoveableObject : MonoBehaviour, IHookable
         return (torque * torqueForce) * Vector3.up;
     }
 
-    private void UpdateAirMovement()
+    private void OnDrawGizmos()
     {
-        //Dangle and have transform.up be vector3.up
-        //Try to move upwords towards player
-        //Rotate towards move direction
+        if (!enableDebug) return;
 
-        //Apply upwards force
-        Vector3 moveForce = currentHookNum * baseSpeed * targetDirection;
-
-        //Vector3 dampingForces = rb.linearVelocity * dragRate;
-
-        //Add forces to rigidbody
-        rb.AddForce(moveForce * (100 * Time.fixedDeltaTime));
-
-        //transform.up = Vector3.MoveTowards(transform.up, Vector3.up, Time.deltaTime * rotationSpeed);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(centerOfMass, 0.3f);
     }
 }
 public interface IHookable
