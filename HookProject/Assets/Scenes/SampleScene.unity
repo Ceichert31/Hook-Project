@@ -365,9 +365,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e4ac59c3166d4fabd6c61526eca55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyForceChannel: {fileID: 11400000, guid: c5268f3e7e7d73349af7bdee2ef2c547, type: 2}
+  endForceChannel: {fileID: 11400000, guid: 44bf043cec4b3b84db124069f7e20e92, type: 2}
   maxDistance: 3
   minDistance: 1.5
-  constrainDistance: 10
+  constrainDistance: 3.5
+  returnPlayerMultiplier: 15
   baseSpeed: 0
   rotationSpeed: 0.008
   torque: 500
@@ -992,6 +995,12 @@ PrefabInstance:
       addedObject: {fileID: 1813354451}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2390676662645113971, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 409523014}
+    - targetCorrespondingSourceObject: {fileID: 2390676662645113971, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      insertIndex: 7
+      addedObject: {fileID: 409523012}
+    - targetCorrespondingSourceObject: {fileID: 2390676662645113971, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       insertIndex: -1
       addedObject: {fileID: 36735175}
   m_SourcePrefab: {fileID: 100100000, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
@@ -1005,11 +1014,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4184258596113817863, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
   m_PrefabInstance: {fileID: 409523008}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &409523011 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8939591259619301516, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+  m_PrefabInstance: {fileID: 409523008}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36735165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0f8b16e53a6204184009e4f156c033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &409523012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36735165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c699cd94647b1394d977d42a2d2d1135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventChannel: {fileID: 11400000, guid: 44bf043cec4b3b84db124069f7e20e92, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 409523011}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: ClearForce
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!20 &409523013 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
   m_PrefabInstance: {fileID: 409523008}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &409523014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36735165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5ce85c59e551314397fc950f033da16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventChannel: {fileID: 11400000, guid: c5268f3e7e7d73349af7bdee2ef2c547, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 409523011}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: AddForceToPlayer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,9 +1241,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e4ac59c3166d4fabd6c61526eca55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyForceChannel: {fileID: 0}
+  endForceChannel: {fileID: 0}
   maxDistance: 3
   minDistance: 1.5
   constrainDistance: 10
+  returnPlayerMultiplier: 15
   baseSpeed: 0
   rotationSpeed: 0.008
   torque: 500
@@ -1631,9 +1710,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e4ac59c3166d4fabd6c61526eca55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyForceChannel: {fileID: 0}
+  endForceChannel: {fileID: 0}
   maxDistance: 3
   minDistance: 1.5
   constrainDistance: 10
+  returnPlayerMultiplier: 15
   baseSpeed: 180
   rotationSpeed: 0.008
   torque: 500
@@ -2223,9 +2305,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e4ac59c3166d4fabd6c61526eca55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyForceChannel: {fileID: 0}
+  endForceChannel: {fileID: 0}
   maxDistance: 3
   minDistance: 1.5
   constrainDistance: 10
+  returnPlayerMultiplier: 15
   baseSpeed: 160
   rotationSpeed: 0.008
   torque: 500
@@ -3646,9 +3731,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e4ac59c3166d4fabd6c61526eca55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyForceChannel: {fileID: 0}
+  endForceChannel: {fileID: 0}
   maxDistance: 3
   minDistance: 1.5
   constrainDistance: 10
+  returnPlayerMultiplier: 15
   baseSpeed: 160
   rotationSpeed: 0.008
   torque: 500
@@ -3696,9 +3784,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e4ac59c3166d4fabd6c61526eca55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyForceChannel: {fileID: 0}
+  endForceChannel: {fileID: 0}
   maxDistance: 3
   minDistance: 1.5
   constrainDistance: 10
+  returnPlayerMultiplier: 15
   baseSpeed: 160
   rotationSpeed: 0.008
   torque: 500

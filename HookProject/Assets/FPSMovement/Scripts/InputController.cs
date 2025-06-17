@@ -119,6 +119,8 @@ public class InputController : MonoBehaviour
         //Returns unit vector
         return moveDirection;
     }
+
+    private Vector3 outsideForce;
     private void Move()
     {
         if (!isGrounded) return;
@@ -148,13 +150,34 @@ public class InputController : MonoBehaviour
             yOffsetForce = Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
         }
         //Calculate the combinded force between direction and offset
-        Vector3 combinedForces = moveForce + yOffsetForce;
+        Vector3 combinedForces = moveForce + yOffsetForce + outsideForce;
 
         //Calculate damping forces by multiplying the drag and player velocity
         Vector3 dampingForces = rb.linearVelocity * dragRate;
 
         //Add forces to rigidbody
         rb.AddForce((combinedForces - dampingForces) * (100 * Time.fixedDeltaTime));
+    }
+
+    /// <summary>
+    /// Used by physics objects to apply force to player
+    /// </summary>
+    /// <param name="ctx"></param>
+    public void AddForceToPlayer(VectorEvent ctx)
+    {
+        //Wont work if we have multiple objects, they would overwrite each other 
+        //Do we need a controller for all object forces?
+
+        //Add force to player
+        outsideForce = ctx.Value;
+    }
+    /// <summary>
+    /// Clears the outside forces being applied to the player
+    /// </summary>
+    /// <param name="ctx"></param>
+    public void ClearForce(VoidEvent ctx)
+    {
+        outsideForce = Vector3.zero;
     }
 
     //Camera movement

@@ -11,6 +11,15 @@ public class MoveableObject : MonoBehaviour, IHookable
     //Drag forces, speed and mass
     //Use psuedo floating rigidbody system
 
+    [Header("Event Channel References")]
+    [SerializeField]
+    private VectorEventChannel applyForceChannel;
+    private VectorEvent applyForceEvent;
+
+    [SerializeField]
+    private VoidEventChannel endForceChannel;
+    private VoidEvent endForceEvent;
+
     [Header("Physics Settings")]
     [SerializeField]
     private float maxDistance = 3f;
@@ -18,6 +27,9 @@ public class MoveableObject : MonoBehaviour, IHookable
     private float minDistance = 1f;
     [SerializeField] 
     private float constrainDistance = 10f;
+    [Tooltip("The amount of force multiplied to the strength pulling the player back towards an object")]
+    [SerializeField]
+    private float returnPlayerMultiplier = 15f;
     [SerializeField]
     private float baseSpeed = 5f;
     [SerializeField] 
@@ -56,7 +68,7 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private RaycastHit groundHit;
 
-    private Vector3 centerOfMass;
+    //private Vector3 centerOfMass;
 
     private bool isGrounded;
     [SerializeField]
@@ -110,6 +122,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         //centerOfMass /= gameObject.transform.childCount;
     }
 
+    private bool playerIsTooFar = false;
 
     private void Update()
     {
@@ -133,11 +146,22 @@ public class MoveableObject : MonoBehaviour, IHookable
         //Prevent player from moving too far from the object
         if (playerDist >= constrainDistance)
         {
+            playerIsTooFar = true;
             //Request force be applied to player
             //Amount of force = mass
             //-targetDirection
+            applyForceEvent.Value = (rb.mass * returnPlayerMultiplier * -targetDirection);
 
+            applyForceChannel.CallEvent(applyForceEvent);
 
+        }
+        else if (playerDist <= constrainDistance && playerIsTooFar)
+        {
+            playerIsTooFar = false;
+            
+            endForceChannel.CallEvent(endForceEvent);
+
+            //Request clearing of forces
         }
     }
 
@@ -222,8 +246,8 @@ public class MoveableObject : MonoBehaviour, IHookable
     {
         if (!enableDebug) return;
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(centerOfMass, 0.3f);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawSphere(centerOfMass, 0.3f);
     }
 }
 public interface IHookable
