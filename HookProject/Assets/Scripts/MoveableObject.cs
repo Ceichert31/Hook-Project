@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IHookable
 {
-    //Needs to know how many hooks it has 
+    //Needs to know how many hooks it has
     //Needs to know players direction
     //Min/max player distances
     //Drag forces, speed and mass
@@ -23,41 +23,54 @@ public class MoveableObject : MonoBehaviour, IHookable
     [Header("Physics Settings")]
     [SerializeField]
     private float maxDistance = 3f;
+
     [SerializeField]
     private float minDistance = 1f;
-    [SerializeField] 
+
+    [SerializeField]
     private float constrainDistance = 10f;
-    [Tooltip("The amount of force multiplied to the strength pulling the player back towards an object")]
+
+    [Tooltip(
+        "The amount of force multiplied to the strength pulling the player back towards an object"
+    )]
     [SerializeField]
     private float returnPlayerMultiplier = 15f;
+
     [SerializeField]
     private float baseSpeed = 5f;
-    [SerializeField] 
+
+    [SerializeField]
     private float rotationSpeed = 0.03f;
+
     [SerializeField]
     private float torque = 500;
+
     [Tooltip("The amount of addition speed given per hook")]
-    [SerializeField] 
+    [SerializeField]
     private float hookNumberMultiplier = 10f;
 
     [Tooltip("The minimum amount of velocity required for an object to start rotating")]
-    [SerializeField] 
+    [SerializeField]
     private float minRequiredVelocity = 1;
 
     [Header("Floating RB Settings")]
     [SerializeField]
     private float groundCastDistance = 0.7f;
+
     [SerializeField]
     private float heightOffset = 0.5f;
+
     [SerializeField]
     private float maxSlopeAngle = 45f;
+
     [SerializeField]
     private float offsetStrength = 100f;
+
     [SerializeField]
     private float offsetDamper = 10f;
 
     //Debug
-    [SerializeField] 
+    [SerializeField]
     private int currentHookNum;
 
     private float playerDist;
@@ -71,19 +84,26 @@ public class MoveableObject : MonoBehaviour, IHookable
     //private Vector3 centerOfMass;
 
     private bool isGrounded;
+
     [SerializeField]
     private bool enableDebug;
 
     [ShowIf(nameof(enableDebug))]
-    [SerializeField] private bool showTorqueDebug;
+    [SerializeField]
+    private bool showTorqueDebug;
+
     [ShowIf(nameof(enableDebug))]
-    [SerializeField] private bool showDistanceDebug;
+    [SerializeField]
+    private bool showDistanceDebug;
 
     private Vector3 Target => GameManager.Instance.PlayerTransform.position;
+
+    private ParticleSystem snowDisplacementParticle;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        snowDisplacementParticle = GetComponentInChildren<ParticleSystem>();
     }
 
     /// <summary>
@@ -95,6 +115,10 @@ public class MoveableObject : MonoBehaviour, IHookable
         //Add to hook num
         currentHookNum++;
 
+        if (currentHookNum == 1)
+        {
+            snowDisplacementParticle.Play();
+        }
         ////Calculate center of mass
         //for (int i = 0; i < gameObject.transform.childCount; ++i)
         //{
@@ -102,6 +126,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         //}
         //centerOfMass /= gameObject.transform.childCount;
     }
+
     /// <summary>
     /// Lets an object know a hook has been removed
     /// </summary>
@@ -110,9 +135,15 @@ public class MoveableObject : MonoBehaviour, IHookable
     {
         //Remove from hook num and confirm it isn't negative
 
-        if (currentHookNum <= 0) return;
+        if (currentHookNum <= 0)
+            return;
 
         currentHookNum--;
+
+        if (currentHookNum == 0)
+        {
+            snowDisplacementParticle.Stop();
+        }
 
         ////Calculate center of mass
         //for (int i = 0; i < gameObject.transform.childCount; ++i)
@@ -127,13 +158,19 @@ public class MoveableObject : MonoBehaviour, IHookable
     private void Update()
     {
         //Prevent updates when not hooked
-        if (currentHookNum <= 0) return;
+        if (currentHookNum <= 0)
+            return;
 
         //Calculate player direction when hooked
         targetDirection = (Target - transform.position).normalized;
 
         //Get ground
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out groundHit, groundCastDistance);
+        isGrounded = Physics.Raycast(
+            transform.position,
+            Vector3.down,
+            out groundHit,
+            groundCastDistance
+        );
 
         //Check if player is within moving distance
         playerDist = Vector3.Distance(Target, transform.position);
@@ -153,12 +190,11 @@ public class MoveableObject : MonoBehaviour, IHookable
             applyForceEvent.Value = (rb.mass * returnPlayerMultiplier * -targetDirection);
 
             applyForceChannel.CallEvent(applyForceEvent);
-
         }
         else if (playerDist <= constrainDistance && playerIsTooFar)
         {
             playerIsTooFar = false;
-            
+
             endForceChannel.CallEvent(endForceEvent);
 
             //Request clearing of forces
@@ -167,19 +203,23 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private void FixedUpdate()
     {
-        if (currentHookNum <= 0) return;
+        if (currentHookNum <= 0)
+            return;
 
-        if (playerDist <= maxDistance || playerDist <= minDistance) return;
+        if (playerDist <= maxDistance || playerDist <= minDistance)
+            return;
 
         UpdateMovement();
     }
+
     private void UpdateMovement()
     {
         //Add forces to rigidbody
         rb.AddForce(CalculateForce(), ForceMode.Force);
 
         //Prevent rotation when under a certain velocity
-        if (rb.linearVelocity.magnitude <= minRequiredVelocity) return;
+        if (rb.linearVelocity.magnitude <= minRequiredVelocity)
+            return;
 
         //Apply torque
         rb.AddTorque(CalculateTorque(), ForceMode.Force);
@@ -210,7 +250,8 @@ public class MoveableObject : MonoBehaviour, IHookable
             float yOffsetVelocity = Vector3.Dot(Vector3.up, rb.linearVelocity);
 
             //Set the offset force of the floating rigidbody
-            yOffsetForce = Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
+            yOffsetForce =
+                Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
         }
         //Calculate the combinded force between direction and offset
         Vector3 combinedForces = moveForce + yOffsetForce * (100 * Time.fixedDeltaTime);
@@ -225,10 +266,14 @@ public class MoveableObject : MonoBehaviour, IHookable
     Vector3 CalculateTorque()
     {
         //Get angle between player position an objects forward position
-        float angle = Vector2.SignedAngle(new Vector2(transform.up.x, transform.up.z), new Vector2(targetDirection.x, targetDirection.z));
+        float angle = Vector2.SignedAngle(
+            new Vector2(transform.up.x, transform.up.z),
+            new Vector2(targetDirection.x, targetDirection.z)
+        );
 
         //Calculate the amount of torque force
-        float torqueForce = (transform.rotation.y - angle) * rotationSpeed * (100 * Time.fixedDeltaTime);
+        float torqueForce =
+            (transform.rotation.y - angle) * rotationSpeed * (100 * Time.fixedDeltaTime);
 
         //Debug
         if (showTorqueDebug)
@@ -238,18 +283,20 @@ public class MoveableObject : MonoBehaviour, IHookable
             Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
             Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
         }
-        
+
         return (torque * torqueForce) * Vector3.up;
     }
 
     private void OnDrawGizmos()
     {
-        if (!enableDebug) return;
+        if (!enableDebug)
+            return;
 
         //Gizmos.color = Color.blue;
         //Gizmos.DrawSphere(centerOfMass, 0.3f);
     }
 }
+
 public interface IHookable
 {
     public void HookAdded();
