@@ -58,8 +58,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SnowScale: 80
-    - _VertexOffset: 0.015
+    - _VertexOffset: 0.008
     m_Colors:
-    - _SnowColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _SnowColor: {r: 2, g: 2, b: 2, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
