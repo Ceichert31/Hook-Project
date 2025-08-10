@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -69,6 +70,12 @@ public class MoveableObject : MonoBehaviour, IHookable
     [SerializeField]
     private float offsetDamper = 10f;
 
+    [SerializeField]
+    private Transform hookAnchorPoint;
+
+    [SerializeField]
+    private Ease easeMode;
+
     //Debug
     [SerializeField]
     private int currentHookNum;
@@ -109,9 +116,11 @@ public class MoveableObject : MonoBehaviour, IHookable
     /// <summary>
     /// Lets the object know a hook as been added
     /// </summary>
-    [Button("Add hook")]
-    public void HookAdded()
+    public void HookAdded(Transform hook)
     {
+        if (currentHookNum > 0)
+            return;
+
         //Add to hook num
         currentHookNum++;
 
@@ -119,6 +128,12 @@ public class MoveableObject : MonoBehaviour, IHookable
         {
             snowDisplacementParticle.Play();
         }
+
+        //Move hook from player to sled anchor point
+        hook.parent = hookAnchorPoint;
+        hook.DOLocalMove(Vector3.zero, 0.3f).SetEase(easeMode);
+        CameraShakeManager.Instance.ShakeCamera(0.3f, 0.3f, easeMode);
+
         ////Calculate center of mass
         //for (int i = 0; i < gameObject.transform.childCount; ++i)
         //{
@@ -300,6 +315,6 @@ public class MoveableObject : MonoBehaviour, IHookable
 
 public interface IHookable
 {
-    public void HookAdded();
+    public void HookAdded(Transform hook);
     public void HookRemoved();
 }

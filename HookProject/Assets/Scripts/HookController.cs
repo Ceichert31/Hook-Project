@@ -6,22 +6,11 @@ public class HookController : MonoBehaviour
     [Header("DoTween Settings")]
     [SerializeField]
     private float hookPlaceDuration = 2f;
+
     [SerializeField]
     private float hookPlaceDelay = 1.3f;
-    [SerializeField]
-    private float cameraShakeDuration = 0.3f;
-    [SerializeField]
-    private float cameraShakeStrength = 0.3f;
-
-    [SerializeField]
-    private Ease easeMode;
-
-    [SerializeField]
-    private Transform cameraHolder;
 
     private HookPool objectPool;
-
-    private GameObject hookObject;
 
     private float hookPlaceTimer;
 
@@ -34,10 +23,11 @@ public class HookController : MonoBehaviour
     /// Places a hook at given position
     /// </summary>
     /// <param name="ctx"></param>
-    public void PlaceHook(HookEvent ctx)
+    public void PlaceHook(IHookable ctx)
     {
         //Check if timer is up
-        if (hookPlaceTimer > Time.time) return;
+        if (hookPlaceTimer > Time.time)
+            return;
 
         //Reset timer
         hookPlaceTimer = Time.time + hookPlaceDelay;
@@ -45,31 +35,12 @@ public class HookController : MonoBehaviour
         //Get available hook
         GameObject instance = objectPool.GetInstance();
 
-        //Parent to hooked object
-        instance.transform.parent = ctx.Object;
-
-        //Move
-        instance.transform.DOMove(ctx.Position, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
+        ctx.HookAdded(instance.transform);
     }
 
     public void DisposeHook(VoidEvent ctx)
     {
         //Remove oldest hook
         GameObject instance = objectPool.GetOldestInstance();
-
-        //Lerp back to holder
-        instance.transform.DOMove(transform.position, hookPlaceDuration).SetEase(Ease.InElastic).OnComplete(Shake);
-
-        //Eventually restructure and move into HookPool
-        //instance.SetActive(false);
-    }
-
-    /// <summary>
-    /// Shakes the camera
-    /// </summary>
-    private void Shake()
-    {
-        //Camera shake
-        cameraHolder.DOShakePosition(cameraShakeDuration, cameraShakeStrength, 10, 90, false, true).SetEase(easeMode);
     }
 }

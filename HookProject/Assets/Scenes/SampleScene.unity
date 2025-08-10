@@ -381,6 +381,8 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 0}
+  easeMode: 0
   currentHookNum: 0
   enableDebug: 1
   showTorqueDebug: 1
@@ -504,6 +506,88 @@ Transform:
   - {fileID: 743509606}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1001 &217841964
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 409523010}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c43a93ce3e1389940aee1c95fdf049aa, type: 2}
+    - target: {fileID: 919132149155446097, guid: d276a7848f0084544a58960e075fd225, type: 3}
+      propertyPath: m_Name
+      value: SledHook
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d276a7848f0084544a58960e075fd225, type: 3}
+--- !u!4 &217841965 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
+  m_PrefabInstance: {fileID: 217841964}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &281741995
 Mesh:
   m_ObjectHideFlags: 0
@@ -10623,6 +10707,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4184258596113817863, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1862731624}
+    - targetCorrespondingSourceObject: {fileID: 4184258596113817863, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 217841965}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2390676662645113971, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       insertIndex: 6
@@ -11257,7 +11344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &549310576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11286,6 +11373,8 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 0}
+  easeMode: 0
   currentHookNum: 0
   enableDebug: 1
   showTorqueDebug: 1
@@ -11696,6 +11785,8 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 0}
+  easeMode: 0
   currentHookNum: 0
   enableDebug: 1
   showTorqueDebug: 1
@@ -11965,6 +12056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 832575519}
   - component: {fileID: 832575518}
+  - component: {fileID: 832575520}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -12003,6 +12095,50 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &832575520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832575517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7f7c55dbed1de4282f4455cb26f417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraHolder: {fileID: 2046839802}
+--- !u!1 &863408685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863408686}
+  m_Layer: 6
+  m_Name: AnchorPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &863408686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863408685}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.05, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1298480330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1087635823
 PrefabInstance:
@@ -12121,7 +12257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1210341562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12150,6 +12286,8 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 0}
+  easeMode: 0
   currentHookNum: 0
   enableDebug: 1
   showTorqueDebug: 1
@@ -17106,6 +17244,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!4 &1298480330 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5477749408508380018, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
+  m_PrefabInstance: {fileID: 1564554881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1304337779
 GameObject:
   m_ObjectHideFlags: 0
@@ -18433,6 +18576,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c43a93ce3e1389940aee1c95fdf049aa, type: 2}
+    - target: {fileID: -3566703537202743107, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c43a93ce3e1389940aee1c95fdf049aa, type: 2}
     - target: {fileID: 919132149155446097, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
       propertyPath: m_Name
       value: WoodSledV1 1
@@ -18445,16 +18596,27 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2229032678205019293, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c43a93ce3e1389940aee1c95fdf049aa, type: 2}
     - target: {fileID: 5436443834994873274, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6834055828785937145, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c43a93ce3e1389940aee1c95fdf049aa, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1281664218}
+    - targetCorrespondingSourceObject: {fileID: -5477749408508380018, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 863408686}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f2b856c273e0db64baf43715cec27ad8, type: 3}
       insertIndex: -1
@@ -18499,9 +18661,11 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 863408686}
+  easeMode: 17
   currentHookNum: 0
-  enableDebug: 1
-  showTorqueDebug: 1
+  enableDebug: 0
+  showTorqueDebug: 0
   showDistanceDebug: 0
 --- !u!54 &1564554884
 Rigidbody:
@@ -18576,7 +18740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1592003040
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -18725,6 +18889,8 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 0}
+  easeMode: 0
   currentHookNum: 0
   enableDebug: 1
   showTorqueDebug: 1
@@ -18749,7 +18915,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1614911083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18778,6 +18944,8 @@ MonoBehaviour:
   maxSlopeAngle: 45
   offsetStrength: 100
   offsetDamper: 10
+  hookAnchorPoint: {fileID: 0}
+  easeMode: 0
   currentHookNum: 0
   enableDebug: 1
   showTorqueDebug: 1
@@ -20032,10 +20200,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hookPlaceDuration: 0.5
   hookPlaceDelay: 1.3
-  cameraShakeDuration: 0.3
-  cameraShakeStrength: 0.1
-  easeMode: 10
-  cameraHolder: {fileID: 2046839802}
 --- !u!114 &1813354457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20045,25 +20209,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1813354450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db23ef41874455d4d9477cd5b654c50e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3034235037a7f05468b183283c57a6c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventChannel: {fileID: 11400000, guid: 1f39af6316893594c85886ef611a1746, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1813354456}
-        m_TargetAssemblyTypeName: HookController, Assembly-CSharp
-        m_MethodName: PlaceHook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  sledHook: {fileID: 217841965}
+  heldPosition: {x: 0.4, y: 0.04, z: 0.6}
+  unequipedPosition: {x: 0.4, y: -2, z: 0.6}
+  moveTime: 0.5
 --- !u!1 &1836512356
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
-using UnityEngine;
-using NaughtyAttributes;
 using System;
+using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Interactor : MonoBehaviour
@@ -10,51 +10,77 @@ public class Interactor : MonoBehaviour
     private HookEventChannel hookPositionChannel;
     private HookEvent hookEvent;
 
-
     [Header("Hook Settings")]
     [Layer]
     [SerializeField]
     private int hookLayer;
+
     [SerializeField]
     private LayerMask hookMask;
+
     [SerializeField]
     private Transform raycastOrigin;
+
     [SerializeField]
     private float raycastRange = 5.0f;
 
     private bool canHook;
+    private bool isSledHookRaised;
+
+    private HookController hookController;
+    private SledHookVisualController sledHookController;
 
     //Need:
-    //Channel for adding hooks 
+    //Channel for adding hooks
     //Channel for removing hooks
-
 
     //On trigger stay with interactable objects fire raycast to check if object is interactable
 
+    private void Start()
+    {
+        hookController = GetComponent<HookController>();
+        sledHookController = GetComponent<SledHookVisualController>();
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        //Guard clause
-        if (other.gameObject.layer != hookLayer) return;
-
-        //Check for player input here
-        if (canHook)
+        //Fire raycast to check if object in view is hookable
+        if (
+            Physics.Raycast(
+                raycastOrigin.position,
+                raycastOrigin.forward,
+                out RaycastHit hit,
+                raycastRange,
+                hookMask
+            )
+        )
         {
-            canHook = false;
+            //Guard clause
+            if (other.gameObject.layer != hookLayer)
+                return;
 
-            //Fire raycast to check if object in view is hookable
-            if (Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out RaycastHit hit, raycastRange, hookMask))
+            if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
             {
-                if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
+                if (canHook)
                 {
-                    //Activate and place hook
-                    hookEvent.Position = hit.point;
-                    hookEvent.Object = hit.transform;
-
-                    //Send point over and sign to place hook
-                    hookPositionChannel.CallEvent(hookEvent);
-
-                    instance.HookAdded();
+                    canHook = false;
+                    hookController.PlaceHook(instance);
                 }
+            }
+            //Raise sled hook when looking at interactable
+            if (!isSledHookRaised)
+            {
+                isSledHookRaised = true;
+                sledHookController.HoldSledHook();
+            }
+        }
+        else
+        {
+            //Lower hook and prevent interaction
+            if (isSledHookRaised)
+            {
+                isSledHookRaised = false;
+                sledHookController.LowerSledHook();
             }
         }
     }
@@ -63,5 +89,11 @@ public class Interactor : MonoBehaviour
     /// Player input to allow hook input
     /// </summary>
     /// <param name="ctx"></param>
-    public void HookInput(VoidEvent ctx) => canHook = true;
+    public void HookInput(VoidEvent ctx)
+    {
+        canHook = true;
+        Invoke(nameof(ResetCanHook), 0.05f);
+    }
+
+    private void ResetCanHook() => canHook = false;
 }
