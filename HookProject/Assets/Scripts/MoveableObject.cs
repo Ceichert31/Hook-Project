@@ -267,7 +267,7 @@ public class MoveableObject : MonoBehaviour, IHookable
     {
         //Get angle between player position an objects forward position
         float angle = Vector2.SignedAngle(
-            new Vector2(transform.up.x, transform.up.z),
+            new Vector2(transform.forward.x, transform.forward.z),
             new Vector2(targetDirection.x, targetDirection.z)
         );
 
@@ -280,8 +280,6 @@ public class MoveableObject : MonoBehaviour, IHookable
         {
             Debug.Log($"Angle: {angle}\n TorqueForce: {torqueForce}");
             Debug.DrawRay(transform.position, targetDirection * 3f, Color.blue);
-            Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
-            Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
         }
 
         return (torque * torqueForce) * Vector3.up;
@@ -291,6 +289,9 @@ public class MoveableObject : MonoBehaviour, IHookable
     {
         if (!enableDebug)
             return;
+
+        Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
+        Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
 
         //Gizmos.color = Color.blue;
         //Gizmos.DrawSphere(centerOfMass, 0.3f);
