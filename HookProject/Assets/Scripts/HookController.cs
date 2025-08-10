@@ -10,13 +10,16 @@ public class HookController : MonoBehaviour
     [SerializeField]
     private float hookPlaceDelay = 1.3f;
 
-    private HookPool objectPool;
+    [SerializeField]
+    Transform sledHook;
+
+    //private HookPool objectPool;
 
     private float hookPlaceTimer;
 
     private void Start()
     {
-        objectPool = GetComponent<HookPool>();
+        //objectPool = GetComponent<HookPool>();
     }
 
     /// <summary>
@@ -33,14 +36,14 @@ public class HookController : MonoBehaviour
         hookPlaceTimer = Time.time + hookPlaceDelay;
 
         //Get available hook
-        GameObject instance = objectPool.GetInstance();
+        //GameObject instance = objectPool.GetInstance();
 
-        ctx.HookAdded(instance.transform);
+        ctx.HookAdded(sledHook.transform);
     }
 
     public void DisposeHook(VoidEvent ctx)
     {
         //Remove oldest hook
-        GameObject instance = objectPool.GetOldestInstance();
+        //GameObject instance = objectPool.GetOldestInstance();
     }
 }

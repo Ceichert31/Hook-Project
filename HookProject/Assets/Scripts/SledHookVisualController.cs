@@ -19,13 +19,13 @@ public class SledHookVisualController : MonoBehaviour
     {
         DOTween.CompleteAll();
         //DoTween hook upwards when something is interactable
-        sledHook.DOLocalMove(heldPosition, moveTime);
+        //sledHook.DOLocalMove(heldPosition, moveTime);
     }
 
     public void LowerSledHook()
     {
         DOTween.CompleteAll();
 
-        sledHook.DOLocalMove(unequipedPosition, moveTime);
+        //sledHook.DOLocalMove(unequipedPosition, moveTime);
     }
 }
