@@ -37,6 +37,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 67d88f9530f622140b04c1b1bdcc4361, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RenderTexture:
         m_Texture: {fileID: 8400000, guid: 76c288fdfeb5f684cb3659c0d8909a2d, type: 2}
         m_Scale: {x: 1, y: 1}
@@ -60,6 +64,6 @@ Material:
     - _SnowScale: 80
     - _VertexOffset: 0.008
     m_Colors:
-    - _SnowColor: {r: 1.3350784, g: 1.3350784, b: 1.3350784, a: 0}
+    - _SnowColor: {r: 1.3350782, g: 1.3350782, b: 1.3350782, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
