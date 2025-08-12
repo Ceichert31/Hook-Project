@@ -1,7 +1,7 @@
-using System;
 using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IHookable
@@ -103,6 +103,10 @@ public class MoveableObject : MonoBehaviour, IHookable
     [ShowIf(nameof(enableDebug))]
     [SerializeField]
     private bool showDistanceDebug;
+
+    [Header("Audio Settings")]
+    [SerializeField]
+    private RangedFloat pitchValues;
 
     private Vector3 Target => GameManager.Instance.PlayerTransform.position;
 
@@ -309,6 +313,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         if (rb.linearVelocity.magnitude > SNOW_AUDIO_CUTOFF && !isMoving)
         {
             isMoving = true;
+            source.pitch = Random.Range(pitchValues.minValue, pitchValues.maxValue);
             source.Play();
         }
         else if (rb.linearVelocity.magnitude <= SNOW_AUDIO_CUTOFF)
