@@ -88,9 +88,10 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private RaycastHit groundHit;
 
-    //private Vector3 centerOfMass;
+    private AudioSource source;
 
     private bool isGrounded;
+    private bool isMoving;
 
     [SerializeField]
     private bool enableDebug;
@@ -107,8 +108,11 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private ParticleSystem snowDisplacementParticle;
 
+    const float SNOW_AUDIO_CUTOFF = 0.4f;
+
     private void Start()
     {
+        source = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         snowDisplacementParticle = GetComponentInChildren<ParticleSystem>();
     }
@@ -134,13 +138,6 @@ public class MoveableObject : MonoBehaviour, IHookable
         hook.eulerAngles = new(0, -90, 0);
         hook.DOLocalMove(Vector3.zero, 0.3f).SetEase(easeMode);
         CameraShakeManager.Instance.ShakeCamera(0.3f, 0.3f, easeMode);
-
-        ////Calculate center of mass
-        //for (int i = 0; i < gameObject.transform.childCount; ++i)
-        //{
-        //    centerOfMass += gameObject.transform.GetChild(i).position;
-        //}
-        //centerOfMass /= gameObject.transform.childCount;
     }
 
     /// <summary>
@@ -160,13 +157,6 @@ public class MoveableObject : MonoBehaviour, IHookable
         {
             snowDisplacementParticle.Stop();
         }
-
-        ////Calculate center of mass
-        //for (int i = 0; i < gameObject.transform.childCount; ++i)
-        //{
-        //    centerOfMass += gameObject.transform.GetChild(i).position;
-        //}
-        //centerOfMass /= gameObject.transform.childCount;
     }
 
     private bool playerIsTooFar = false;
@@ -188,33 +178,8 @@ public class MoveableObject : MonoBehaviour, IHookable
             groundCastDistance
         );
 
-        //Check if player is within moving distance
-        playerDist = Vector3.Distance(Target, transform.position);
-
-        if (showDistanceDebug)
-        {
-            Debug.Log($"Distance to Object {gameObject.name}: {playerDist}");
-        }
-
-        //Prevent player from moving too far from the object
-        if (playerDist >= constrainDistance)
-        {
-            playerIsTooFar = true;
-            //Request force be applied to player
-            //Amount of force = mass
-            //-targetDirection
-            applyForceEvent.Value = (rb.mass * returnPlayerMultiplier * -targetDirection);
-
-            applyForceChannel.CallEvent(applyForceEvent);
-        }
-        else if (playerDist <= constrainDistance && playerIsTooFar)
-        {
-            playerIsTooFar = false;
-
-            endForceChannel.CallEvent(endForceEvent);
-
-            //Request clearing of forces
-        }
+        PlaySledAudio();
+        CheckPlayerDistance();
     }
 
     private void FixedUpdate()
@@ -299,6 +264,58 @@ public class MoveableObject : MonoBehaviour, IHookable
         }
 
         return (torque * torqueForce) * Vector3.up;
+    }
+
+    /// <summary>
+    /// Checks whether the player is outside the sled's range
+    /// and pulls the player back if true
+    /// </summary>
+    private void CheckPlayerDistance()
+    {
+        //Check if player is within moving distance
+        playerDist = Vector3.Distance(Target, transform.position);
+
+        if (showDistanceDebug)
+        {
+            Debug.Log($"Distance to Object {gameObject.name}: {playerDist}");
+        }
+
+        //Prevent player from moving too far from the object
+        if (playerDist >= constrainDistance)
+        {
+            playerIsTooFar = true;
+            //Request force be applied to player
+            //Amount of force = mass
+            //-targetDirection
+            applyForceEvent.Value = (rb.mass * returnPlayerMultiplier * -targetDirection);
+
+            applyForceChannel.CallEvent(applyForceEvent);
+        }
+        else if (playerDist <= constrainDistance && playerIsTooFar)
+        {
+            playerIsTooFar = false;
+
+            endForceChannel.CallEvent(endForceEvent);
+
+            //Request clearing of forces
+        }
+    }
+
+    /// <summary>
+    /// Determines whether the sled is moving and plays a dragging sound effect
+    /// </summary>
+    private void PlaySledAudio()
+    {
+        if (rb.linearVelocity.magnitude > SNOW_AUDIO_CUTOFF && !isMoving)
+        {
+            isMoving = true;
+            source.Play();
+        }
+        else if (rb.linearVelocity.magnitude <= SNOW_AUDIO_CUTOFF)
+        {
+            isMoving = false;
+            source.Stop();
+        }
     }
 
     private void OnDrawGizmos()

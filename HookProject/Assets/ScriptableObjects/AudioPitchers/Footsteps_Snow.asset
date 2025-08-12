@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb532c590ef2f3843a1e5b84d8dff970, type: 3}
+  m_Name: Footsteps_Snow
+  m_EditorClassIdentifier: 
+  audioClipList:
+  - {fileID: 8300000, guid: 56d4929b23c594641950363553bdf6fb, type: 3}
+  - {fileID: 8300000, guid: ac27be74c8b84134b9be2270ac61abe9, type: 3}
+  - {fileID: 8300000, guid: d858e206580db4446a155fe01763ce6b, type: 3}
+  - {fileID: 8300000, guid: 99456b2f629711943b01c76f49f03ba3, type: 3}
+  - {fileID: 8300000, guid: e886c341e000d584b88657a54246453d, type: 3}
+  volume:
+    minValue: 0.4
+    maxValue: 0.7
+  pitch:
+    minValue: 0.9
+    maxValue: 1.2
