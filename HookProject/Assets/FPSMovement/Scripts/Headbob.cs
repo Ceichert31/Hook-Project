@@ -94,8 +94,8 @@ public class Headbob : MonoBehaviour
         }
         else if (IsMoving)
         {
-            _currentTime.x += headbobSpeed.x * Time.deltaTime * SpeedFactor;
-            _currentTime.y += headbobSpeed.y * Time.deltaTime * SpeedFactor;
+            _currentTime.x += headbobSpeed.x / 10 * Time.deltaTime * SpeedFactor;
+            _currentTime.y += headbobSpeed.y / 10 * Time.deltaTime * SpeedFactor;
             _currentPos.x = headbobCurveX.Evaluate(_currentTime.x) * headbobIntensity.x;
             _currentPos.y = headbobCurveY.Evaluate(_currentTime.y) * headbobIntensity.y;
 

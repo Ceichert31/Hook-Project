@@ -7,20 +7,11 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IHookable
 {
-    //Needs to know how many hooks it has
-    //Needs to know players direction
-    //Min/max player distances
-    //Drag forces, speed and mass
-    //Use psuedo floating rigidbody system
-
     [Header("Event Channel References")]
     [SerializeField]
     private VectorEventChannel applyForceChannel;
-    private VectorEvent applyForceEvent;
-
     [SerializeField]
     private VoidEventChannel endForceChannel;
-    private VoidEvent endForceEvent;
 
     [Header("Physics Settings")]
     [SerializeField]
@@ -81,19 +72,6 @@ public class MoveableObject : MonoBehaviour, IHookable
     [SerializeField]
     private int currentHookNum;
 
-    private float playerDist;
-
-    private Vector3 targetDirection;
-
-    private Rigidbody rb;
-
-    private RaycastHit groundHit;
-
-    private AudioSource source;
-
-    private bool isGrounded;
-    private bool isMoving;
-
     [SerializeField]
     private bool enableDebug;
 
@@ -108,12 +86,35 @@ public class MoveableObject : MonoBehaviour, IHookable
     [Header("Audio Settings")]
     [SerializeField]
     private RangedFloat pitchValues;
+    private VectorEvent applyForceEvent;
+    private VoidEvent endForceEvent;
 
-    private Vector3 Target => GameManager.Instance.PlayerTransform.position;
+    private RaycastHit groundHit;
+
+    private bool isGrounded;
+    private bool isMoving;
+
+    private float playerDist;
+
+    private bool playerIsTooFar;
+
+    private Rigidbody rb;
 
     private ParticleSystem snowDisplacementParticle;
 
-    const float SNOW_AUDIO_CUTOFF = 0.4f;
+    private AudioSource source;
+
+    private Vector3 targetDirection;
+
+    private Vector3 Target
+    {
+        get
+        {
+            return GameManager.Instance.PlayerTransform.position;
+        }
+    }
+    
+    private const float SNOW_AUDIO_CUTOFF = 0.4f;
 
     private void Start()
     {
@@ -121,50 +122,6 @@ public class MoveableObject : MonoBehaviour, IHookable
         rb = GetComponent<Rigidbody>();
         snowDisplacementParticle = GetComponentInChildren<ParticleSystem>();
     }
-
-    /// <summary>
-    /// Lets the object know a hook as been added
-    /// </summary>
-    public void HookAdded(Transform hook)
-    {
-        if (currentHookNum > 0)
-            return;
-
-        //Add to hook num
-        currentHookNum++;
-
-        if (currentHookNum == 1)
-        {
-            snowDisplacementParticle.Play();
-        }
-
-        //Move hook from player to sled anchor point
-        hook.parent = hookAnchorPoint;
-        hook.eulerAngles = new(0, -90, 0);
-        hook.DOLocalMove(Vector3.zero, 0.3f).SetEase(easeMode);
-        CameraShakeManager.Instance.ShakeCamera(0.3f, 0.3f, easeMode);
-    }
-
-    /// <summary>
-    /// Lets an object know a hook has been removed
-    /// </summary>
-    [Button("Remove Hook")]
-    public void HookRemoved()
-    {
-        //Remove from hook num and confirm it isn't negative
-
-        if (currentHookNum <= 0)
-            return;
-
-        currentHookNum--;
-
-        if (currentHookNum == 0)
-        {
-            snowDisplacementParticle.Stop();
-        }
-    }
-
-    private bool playerIsTooFar = false;
 
     private void Update()
     {
@@ -198,6 +155,64 @@ public class MoveableObject : MonoBehaviour, IHookable
         UpdateMovement();
     }
 
+    private void OnDrawGizmos()
+    {
+        if (!enableDebug)
+            return;
+
+        Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
+        Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
+
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawSphere(centerOfMass, 0.3f);
+    }
+
+    /// <summary>
+    ///     Lets the object know a hook as been added
+    /// </summary>
+    public void HookAdded(Transform hook)
+    {
+        if (currentHookNum > 0)
+            return;
+
+        //Add to hook num
+        currentHookNum++;
+
+        if (currentHookNum == 1)
+        {
+            snowDisplacementParticle.Play();
+        }
+
+        hook.GetComponent<HookInstance>().PlaceObject(true);
+
+        //Move hook from player to sled anchor point
+        hook.parent = hookAnchorPoint;
+        hook.eulerAngles = new Vector3(0, -90, 0);
+        hook.DOLocalMove(Vector3.zero, 0.3f).SetEase(easeMode);
+        CameraShakeManager.Instance.ShakeCamera(0.3f, 0.3f, easeMode);
+    }
+
+    /// <summary>
+    ///     Lets an object know a hook has been removed
+    /// </summary>
+    [Button("Remove Hook")]
+    public void HookRemoved()
+    {
+        //Remove from hook num and confirm it isn't negative
+
+        if (currentHookNum <= 0)
+            return;
+
+        currentHookNum--;
+
+        //hook.GetComponent<HookInstance>().PlaceObject(true);
+
+        if (currentHookNum == 0)
+        {
+            snowDisplacementParticle.Stop();
+        }
+    }
+
     private void UpdateMovement()
     {
         //Add forces to rigidbody
@@ -212,13 +227,13 @@ public class MoveableObject : MonoBehaviour, IHookable
     }
 
     /// <summary>
-    /// Calculates the amount of force nessecary to move forward
+    ///     Calculates the amount of force nessecary to move forward
     /// </summary>
     /// <returns></returns>
-    Vector3 CalculateForce()
+    private Vector3 CalculateForce()
     {
         //Apply walk speed to the movement vector
-        Vector3 moveForce = (baseSpeed + (currentHookNum * hookNumberMultiplier)) * targetDirection;
+        Vector3 moveForce = (baseSpeed + currentHookNum * hookNumberMultiplier) * targetDirection;
 
         //Find the angle between the players up position and the groundHit
         float slopeAngle = Vector3.Angle(Vector3.up, groundHit.normal);
@@ -230,7 +245,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         if (slopeAngle <= maxSlopeAngle)
         {
             //Find difference between ground distance and the offset
-            float yOffsetError = (heightOffset - groundHit.distance);
+            float yOffsetError = heightOffset - groundHit.distance;
 
             //Find the dot product of vector3.up and of the players velocity
             float yOffsetVelocity = Vector3.Dot(Vector3.up, rb.linearVelocity);
@@ -246,10 +261,10 @@ public class MoveableObject : MonoBehaviour, IHookable
     }
 
     /// <summary>
-    /// Calculates the amount of torque needed to rotate towards the player
+    ///     Calculates the amount of torque needed to rotate towards the player
     /// </summary>
     /// <returns></returns>
-    Vector3 CalculateTorque()
+    private Vector3 CalculateTorque()
     {
         //Get angle between player position an objects forward position
         float angle = Vector2.SignedAngle(
@@ -268,12 +283,12 @@ public class MoveableObject : MonoBehaviour, IHookable
             Debug.DrawRay(transform.position, targetDirection * 3f, Color.blue);
         }
 
-        return (torque * torqueForce) * Vector3.up;
+        return torque * torqueForce * Vector3.up;
     }
 
     /// <summary>
-    /// Checks whether the player is outside the sled's range
-    /// and pulls the player back if true
+    ///     Checks whether the player is outside the sled's range
+    ///     and pulls the player back if true
     /// </summary>
     private void CheckPlayerDistance()
     {
@@ -292,7 +307,7 @@ public class MoveableObject : MonoBehaviour, IHookable
             //Request force be applied to player
             //Amount of force = mass
             //-targetDirection
-            applyForceEvent.Value = (rb.mass * returnPlayerMultiplier * -targetDirection);
+            applyForceEvent.Value = rb.mass * returnPlayerMultiplier * -targetDirection;
 
             applyForceChannel.CallEvent(applyForceEvent);
         }
@@ -307,7 +322,7 @@ public class MoveableObject : MonoBehaviour, IHookable
     }
 
     /// <summary>
-    /// Determines whether the sled is moving and plays a dragging sound effect
+    ///     Determines whether the sled is moving and plays a dragging sound effect
     /// </summary>
     private void PlaySledAudio()
     {
@@ -322,18 +337,6 @@ public class MoveableObject : MonoBehaviour, IHookable
             isMoving = false;
             source.Stop();
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (!enableDebug)
-            return;
-
-        Debug.DrawRay(transform.position, transform.up * 3f, Color.red);
-        Debug.DrawRay(transform.position, transform.forward * 3f, Color.yellow);
-
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawSphere(centerOfMass, 0.3f);
     }
 }
 

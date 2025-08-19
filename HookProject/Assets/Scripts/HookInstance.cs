@@ -1,24 +1,24 @@
 using UnityEngine;
-
 public class HookInstance : MonoBehaviour
 {
-    private LineRenderer ropeRenderer;
+    private Transform _parentObject;
+    private LineRenderer _ropeRenderer;
 
-    private Transform parentObject;
     private void Awake()
     {
-        ropeRenderer = GetComponent<LineRenderer>();
-        parentObject = transform.parent;
+        _ropeRenderer = GetComponent<LineRenderer>();
+        _parentObject = transform.parent;
+        PlaceObject(false);
     }
 
     private void Update()
     {
-        ropeRenderer.SetPosition(0, parentObject.position);
-        ropeRenderer.SetPosition(1, transform.position);
+        _ropeRenderer.SetPosition(0, _parentObject.position);
+        _ropeRenderer.SetPosition(1, transform.position);
     }
 
-    public void AttachedToObject()
+    public void PlaceObject(bool isPlaced)
     {
-
+        _ropeRenderer.enabled = isPlaced;
     }
 }

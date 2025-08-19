@@ -72,7 +72,7 @@ public class Interactor : MonoBehaviour
             if (!isSledHookRaised)
             {
                 isSledHookRaised = true;
-                //sledHookController.HoldSledHook();
+                sledHookController.RaiseSledHook();
             }
         }
         else
@@ -81,7 +81,7 @@ public class Interactor : MonoBehaviour
             if (isSledHookRaised)
             {
                 isSledHookRaised = false;
-                //sledHookController.LowerSledHook();
+                sledHookController.LowerSledHook();
             }
         }
     }
