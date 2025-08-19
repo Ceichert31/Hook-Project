@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EventChannels;
 using UnityEngine;
 
 public class HookController : MonoBehaviour
@@ -11,16 +12,9 @@ public class HookController : MonoBehaviour
     private float hookPlaceDelay = 1.3f;
 
     [SerializeField]
-    Transform sledHook;
-
-    //private HookPool objectPool;
-
-    private float hookPlaceTimer;
-
-    private void Start()
-    {
-        //objectPool = GetComponent<HookPool>();
-    }
+    private Transform sledHook;
+    
+    private float _hookPlaceTimer;
 
     /// <summary>
     /// Places a hook at given position
@@ -29,11 +23,11 @@ public class HookController : MonoBehaviour
     public void PlaceHook(IHookable ctx)
     {
         //Check if timer is up
-        if (hookPlaceTimer > Time.time)
+        if (_hookPlaceTimer > Time.time)
             return;
 
         //Reset timer
-        hookPlaceTimer = Time.time + hookPlaceDelay;
+        _hookPlaceTimer = Time.time + hookPlaceDelay;
 
         //Get available hook
         //GameObject instance = objectPool.GetInstance();

@@ -1,3 +1,4 @@
+using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -1,4 +1,5 @@
 using System;
+using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;

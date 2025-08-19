@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
