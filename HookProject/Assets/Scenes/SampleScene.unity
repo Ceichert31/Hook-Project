@@ -2081,15 +2081,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.40000004
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.67333007
+      value: -0.091
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.008949757
+      value: 0.623
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d276a7848f0084544a58960e075fd225, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13569,19 +13569,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobSpeed.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobSpeed.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobIntensity.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobIntensity.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobCurveX.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobCurveX.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: headbobCurveY.m_Curve.Array.data[0].time
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[0].value
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[1].value
-      value: 0.6
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[2].value
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[0].value
@@ -13597,23 +13625,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[0].inSlope
-      value: 0.1993582
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[1].inSlope
-      value: -0.0003209263
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[2].inSlope
-      value: -0.20000005
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[0].inSlope
-      value: 0.1993582
+      value: 0.20000005
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[1].inSlope
-      value: -0.0003209263
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[2].inSlope
@@ -13621,23 +13649,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[0].outSlope
-      value: 0.1993582
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[1].outSlope
-      value: -0.0003209263
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveX.m_Curve.Array.data[2].outSlope
-      value: -0.20000005
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[0].outSlope
-      value: 0.1993582
+      value: 0.20000005
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[1].outSlope
-      value: -0.0003209263
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4893733725445465475, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: headbobCurveY.m_Curve.Array.data[2].outSlope

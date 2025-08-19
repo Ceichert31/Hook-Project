@@ -1,12 +1,11 @@
 using UnityEngine;
-
 public class Headbob : MonoBehaviour
 {
-    [Header("Headbob Refrences")]
+    [Header("Head bob References")]
     [Tooltip("Camera holder which will have movement applied to it")]
-    [SerializeField] private Transform headbobTarget;   
+    [SerializeField] private Transform headbobTarget;
 
-    [Header("Headbob Settings")]
+    [Header("Head bob Settings")]
     [Tooltip("How fast the x and y of the camera bob")]
     [SerializeField] private Vector2 headbobSpeed;
 
@@ -19,60 +18,88 @@ public class Headbob : MonoBehaviour
     [Tooltip("The horizontal path the camera will take when bobbing")]
     [SerializeField] private AnimationCurve headbobCurveX;
 
-    private InputController inputController;
-    private Rigidbody rb;
+    private Vector2 _currentPos;
+    private Vector2 _currentTime;
 
-    private Vector2 currentPos;
-    private Vector2 currentTime;
-    private Vector3 velocity;
+    private InputController _inputController;
+    private Rigidbody _rb;
 
-    private float smoothTime;
+    private float _smoothTime;
+    private Vector3 _velocity;
 
-    private bool applyMovementEffects => inputController.ApplyMovementEffects;
-    private bool isGrounded => inputController.IsGrounded;
-    private bool isMoving => inputController.IsMoving;
+    private float SpeedFactor
+    {
+        get
+        {
+            return _rb.linearVelocity.magnitude;
+        }
+    }
+    private bool ApplyMovementEffects
+    {
+        get
+        {
+            return _inputController.ApplyMovementEffects;
+        }
+    }
+    private bool IsGrounded
+    {
+        get
+        {
+            return _inputController.IsGrounded;
+        }
+    }
+    private bool IsMoving
+    {
+        get
+        {
+            return _inputController.IsMoving;
+        }
+    }
 
     private void Start()
     {
-        inputController = GetComponent<InputController>();
+        _inputController = GetComponent<InputController>();
 
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
 
         if (headbobTarget == null)
             headbobTarget = transform.GetChild(0);
     }
     private void Update()
     {
-        if (applyMovementEffects) return;
+        if (ApplyMovementEffects) return;
 
-        UpdateBob();
-    }
-
-    void UpdateBob()
-    {
-        float speedFactor = rb.linearVelocity.magnitude;
-
-        if (!isGrounded || !isMoving)
-        {
-            currentPos = Vector2.zero;
-            currentTime = Vector2.zero;
-            smoothTime = 0.2f;
-        }
-        else if (isMoving)
-        {
-            currentTime.x += headbobSpeed.x / 10 * Time.deltaTime * speedFactor;
-            currentTime.y += headbobSpeed.y / 10 * Time.deltaTime * speedFactor;
-            currentPos.x = headbobCurveX.Evaluate(currentTime.x) * headbobIntensity.x;
-            currentPos.y = headbobCurveY.Evaluate(currentTime.y) * headbobIntensity.y;
-
-            smoothTime = 0.1f;
-        }
+        UpdateHeadBob();
     }
     private void FixedUpdate()
     {
-        Vector3 targetPos = new(currentPos.x, currentPos.y, 0);
-        Vector3 desiredPos = Vector3.SmoothDamp(headbobTarget.localPosition, targetPos, ref velocity, smoothTime);
+        //Vector3 targetPos = new Vector3(_currentPos.x, _currentPos.y, 0);
+        Vector3 desiredPos = Vector3.SmoothDamp(headbobTarget.localPosition, _currentPos, ref _velocity, _smoothTime);
 
         headbobTarget.localPosition = desiredPos;
+    }
+
+    /// <summary>
+    ///     Updates the position of the camera holder based on movement speed
+    /// </summary>
+    private void UpdateHeadBob()
+    {
+        //If player is stationary
+        if (!IsGrounded || !IsMoving)
+        {
+            _currentTime = Vector2.zero;
+            //Set camera to default position
+            _currentPos.Set(headbobCurveX.Evaluate(_currentTime.x), headbobCurveY.Evaluate(_currentTime.y));
+            _smoothTime = 0.2f;
+        }
+        else if (IsMoving)
+        {
+            _currentTime.x += headbobSpeed.x * Time.deltaTime * SpeedFactor;
+            _currentTime.y += headbobSpeed.y * Time.deltaTime * SpeedFactor;
+            _currentPos.x = headbobCurveX.Evaluate(_currentTime.x) * headbobIntensity.x;
+            _currentPos.y = headbobCurveY.Evaluate(_currentTime.y) * headbobIntensity.y;
+
+            _smoothTime = 0.1f;
+        }
     }
 }
