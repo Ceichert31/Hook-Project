@@ -1,8 +1,6 @@
-using System;
 using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Interactor : MonoBehaviour
 {
@@ -14,10 +12,11 @@ public class Interactor : MonoBehaviour
     [Header("Hook Settings")]
     [Layer]
     [SerializeField]
-    private int hookLayer;
-
+    private int hookLayer;  
+    
+    [Layer]
     [SerializeField]
-    private LayerMask hookMask;
+    private int interactLayer;
 
     [SerializeField]
     private Transform raycastOrigin;
@@ -25,19 +24,14 @@ public class Interactor : MonoBehaviour
     [SerializeField]
     private float raycastRange = 5.0f;
 
-    private bool canPlaceHook;
-    private bool canRemoveHook;
-    private bool isSledHookRaised;
-
     private HookController hookController;
     private SledHookVisualController sledHookController;
     
-    //Need:
-    //Channel for adding hooks
-    //Channel for removing hooks
-
-    //On trigger stay with interactable objects fire raycast to check if object is interactable
-
+    private bool canPlaceHook;
+    private bool canRemoveHook;
+    private bool isSledHookRaised;
+    
+    private const float RESET_INPUT_TIME = 0.05f;
     private void Start()
     {
         hookController = GetComponent<HookController>();
@@ -53,33 +47,12 @@ public class Interactor : MonoBehaviour
                 raycastOrigin.forward,
                 out RaycastHit hit,
                 raycastRange,
-                hookMask
+                hookLayer
             )
         )
         {
-            //Guard clause
-            if (other.gameObject.layer != hookLayer)
-                return;
-
-            if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
-            {
-                //Player interacts state
-                if (canPlaceHook)
-                {
-                    canPlaceHook = false;
-                    sledHookController.SetHookedState(true);
-                    hookController.PlaceHook(instance);
-                }
-                if (!canRemoveHook) return;
-                canRemoveHook = false;
-                sledHookController.SetHookedState(false);
-                //Remove hook
-            }
-            //Raise sled hook when looking at interactable
-            if (isSledHookRaised) return;
-            
-            isSledHookRaised = true;
-            sledHookController.RaiseSledHook();
+            IsSurfaceHookable(hit);
+            IsSurfaceInteractable(hit);
         }
         else
         {
@@ -90,7 +63,54 @@ public class Interactor : MonoBehaviour
             sledHookController.LowerSledHook();
         }
     }
-    private const float RESET_INPUT_TIME = 0.05f;
+
+    /// <summary>
+    /// Checks if a ray cast surface contains an <see cref="IHookable"/> interface
+    /// </summary>
+    /// <param name="hit">The collision point of the raycast</param>
+    private void IsSurfaceHookable(RaycastHit hit)
+    {
+        if (hit.transform.gameObject.layer != hookLayer) return;
+        
+        if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
+        {
+            //Player left-click input
+            if (canPlaceHook)
+            {
+                canPlaceHook = false;
+                sledHookController.SetHookedState(true);
+                hookController.PlaceHook(instance);
+            }
+            
+            //Player right-click input
+            if (!canRemoveHook) return;
+            canRemoveHook = false;
+            sledHookController.SetHookedState(false);
+            //Remove hook
+        }
+        
+        //Raise sled hook when looking at interactable
+        if (isSledHookRaised) return;
+        
+        isSledHookRaised = true;
+        sledHookController.RaiseSledHook();
+    }
+
+    /// <summary>
+    /// Checks whether a surface is interactable and executes the interact logic on the object
+    /// </summary>
+    /// <param name="hit">The collision point of the raycast</param>
+    private void IsSurfaceInteractable(RaycastHit hit)
+    {
+        //Execute interact logic on object
+        if (hit.transform.gameObject.layer != interactLayer) return;
+
+        if (hit.transform.gameObject.TryGetComponent(out IInteractable instance))
+        {
+            instance.Interact();
+        }
+    }
+    
     /// <summary>
     /// Player input to allow hook input
     /// </summary>
