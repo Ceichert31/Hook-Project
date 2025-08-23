@@ -30,7 +30,7 @@ public class Interactor : MonoBehaviour
 
     private HookController hookController;
     private SledHookVisualController sledHookController;
-
+    
     //Need:
     //Channel for adding hooks
     //Channel for removing hooks
@@ -62,27 +62,27 @@ public class Interactor : MonoBehaviour
 
             if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
             {
+                //Player interacts state
                 if (canHook)
                 {
                     canHook = false;
+                    sledHookController.SetHookedState(true);
                     hookController.PlaceHook(instance);
                 }
             }
             //Raise sled hook when looking at interactable
-            if (!isSledHookRaised)
-            {
-                isSledHookRaised = true;
-                sledHookController.RaiseSledHook();
-            }
+            if (isSledHookRaised) return;
+            
+            isSledHookRaised = true;
+            sledHookController.RaiseSledHook();
         }
         else
         {
             //Lower hook and prevent interaction
-            if (isSledHookRaised)
-            {
-                isSledHookRaised = false;
-                sledHookController.LowerSledHook();
-            }
+            if (!isSledHookRaised) return;
+            
+            isSledHookRaised = false;
+            sledHookController.LowerSledHook();
         }
     }
 

@@ -13,7 +13,7 @@ public class HookController : MonoBehaviour
     [SerializeField]
     private Transform sledHook;
     
-    private float _hookPlaceTimer;
+    private float hookPlaceTimer;
 
     /// <summary>
     /// Places a hook at given position
@@ -22,11 +22,11 @@ public class HookController : MonoBehaviour
     public void PlaceHook(IHookable ctx)
     {
         //Check if timer is up
-        if (_hookPlaceTimer > Time.time)
+        if (hookPlaceTimer > Time.time)
             return;
 
         //Reset timer
-        _hookPlaceTimer = Time.time + hookPlaceDelay;
+        hookPlaceTimer = Time.time + hookPlaceDelay;
 
         //Get available hook
         //GameObject instance = objectPool.GetInstance();

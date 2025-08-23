@@ -227,7 +227,7 @@ public class MoveableObject : MonoBehaviour, IHookable
     }
 
     /// <summary>
-    ///     Calculates the amount of force nessecary to move forward
+    ///     Calculates the amount of force necessary to move forward
     /// </summary>
     /// <returns></returns>
     private Vector3 CalculateForce()
@@ -254,7 +254,7 @@ public class MoveableObject : MonoBehaviour, IHookable
             yOffsetForce =
                 Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
         }
-        //Calculate the combinded force between direction and offset
+        //Calculate the combined force between direction and offset
         Vector3 combinedForces = moveForce + yOffsetForce * (100 * Time.fixedDeltaTime);
 
         return combinedForces;
