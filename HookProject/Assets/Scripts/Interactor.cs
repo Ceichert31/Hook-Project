@@ -2,6 +2,13 @@ using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
 
+public enum InteractionState
+{
+    None,
+    Hookable,
+    Interactable
+}
+
 public class Interactor : MonoBehaviour
 {
     [Header("Event Channel References")]
@@ -29,7 +36,9 @@ public class Interactor : MonoBehaviour
     
     private bool canPlaceHook;
     private bool canRemoveHook;
-    private bool isSledHookRaised;
+
+    private InteractionState previousState;
+    private InteractionState currentState;
     
     private const float RESET_INPUT_TIME = 0.05f;
     private void Start()
@@ -53,14 +62,13 @@ public class Interactor : MonoBehaviour
         {
             IsSurfaceHookable(hit);
             IsSurfaceInteractable(hit);
+            
+            if (currentState != previousState)
+                sledHookController.UpdateInteractionState(currentState);
         }
         else
         {
-            //Lower hook and prevent interaction
-            if (!isSledHookRaised) return;
-            
-            isSledHookRaised = false;
-            sledHookController.LowerSledHook();
+            currentState = InteractionState.None;
         }
     }
 
@@ -71,29 +79,27 @@ public class Interactor : MonoBehaviour
     private void IsSurfaceHookable(RaycastHit hit)
     {
         if (hit.transform.gameObject.layer != hookLayer) return;
+
+        if (!hit.transform.gameObject.TryGetComponent(out IHookable instance)) return;
         
-        if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
-        {
-            //Player left-click input
-            if (canPlaceHook)
-            {
-                canPlaceHook = false;
-                sledHookController.SetHookedState(true);
-                hookController.PlaceHook(instance);
-            }
+        currentState = InteractionState.Hookable;
             
-            //Player right-click input
-            if (!canRemoveHook) return;
-            canRemoveHook = false;
-            sledHookController.SetHookedState(false);
-            //Remove hook
+        //Player left-click input
+        if (canPlaceHook)
+        {
+            canPlaceHook = false;
+                
+            sledHookController.SetHookedState(true);
+            hookController.PlaceHook(instance);
+                
+            currentState = InteractionState.None;
         }
-        
-        //Raise sled hook when looking at interactable
-        if (isSledHookRaised) return;
-        
-        isSledHookRaised = true;
-        sledHookController.RaiseSledHook();
+            
+        //Player right-click input
+        if (!canRemoveHook) return;
+        canRemoveHook = false;
+        sledHookController.SetHookedState(false);
+        //Remove hook
     }
 
     /// <summary>

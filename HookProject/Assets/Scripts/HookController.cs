@@ -1,6 +1,9 @@
 using EventChannels;
 using UnityEngine;
 
+/// <summary>
+/// Handles input delays and calls the IHookable interface
+/// </summary>
 public class HookController : MonoBehaviour
 {
     [Header("DoTween Settings")]

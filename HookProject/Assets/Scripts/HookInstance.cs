@@ -1,24 +1,27 @@
 using UnityEngine;
+/// <summary>
+/// Manages the line renderer from the player to the hook
+/// </summary>
 public class HookInstance : MonoBehaviour
 {
-    private Transform _parentObject;
-    private LineRenderer _ropeRenderer;
+    private Transform parentObject;
+    private LineRenderer ropeRenderer;
 
     private void Awake()
     {
-        _ropeRenderer = GetComponent<LineRenderer>();
-        _parentObject = transform.parent;
+        ropeRenderer = GetComponent<LineRenderer>();
+        parentObject = transform.parent;
         PlaceObject(false);
     }
 
     private void Update()
     {
-        _ropeRenderer.SetPosition(0, _parentObject.position);
-        _ropeRenderer.SetPosition(1, transform.position);
+        ropeRenderer.SetPosition(0, parentObject.position);
+        ropeRenderer.SetPosition(1, transform.position);
     }
 
     public void PlaceObject(bool isPlaced)
     {
-        _ropeRenderer.enabled = isPlaced;
+        ropeRenderer.enabled = isPlaced;
     }
 }

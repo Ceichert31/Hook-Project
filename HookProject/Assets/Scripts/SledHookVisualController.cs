@@ -1,8 +1,13 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
+/// <summary>
+/// Controls the visuals of the sled hook, and changes them based on the interaction state
+/// </summary>
 public class SledHookVisualController : MonoBehaviour
 {
+    [Header("Visual Controller Settings")]
     [SerializeField]
     private Transform sledHook;
 
@@ -21,12 +26,33 @@ public class SledHookVisualController : MonoBehaviour
     private MeshRenderer sledHookRenderer;
 
     private bool isHooked;
+    private bool isHookRaised;
     
     private void Start()
     {
         sledHookRenderer = sledHook.GetComponent<MeshRenderer>();
-        
-        DisableSledHook();
+    }
+
+    /// <summary>
+    /// Updates the position of the sled hook's based on the state 
+    /// </summary>
+    /// <param name="state">The current state of interaction</param>
+    public void UpdateInteractionState(InteractionState state)
+    {
+        switch (state)
+        {
+            case InteractionState.None:
+                if (!isHookRaised) return;
+                isHookRaised = false;
+                LowerSledHook();
+                break;
+            
+            case InteractionState.Hookable:
+                if (isHookRaised) return;
+                isHookRaised = true;
+                RaiseSledHook();
+                break;
+        }
     }
 
     /// <summary>
