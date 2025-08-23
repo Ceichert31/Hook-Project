@@ -202,7 +202,7 @@ public class InputController : MonoBehaviour
         lookRotation = Mathf.Clamp(lookRotation, -90, 90);
 
         //Set cameras rotation
-        cam.transform.eulerAngles = new(lookRotation, cam.transform.eulerAngles.y, cam.transform.eulerAngles.z);
+        cam.transform.eulerAngles = new Vector3(lookRotation, cam.transform.eulerAngles.y, cam.transform.eulerAngles.z);
     }
 
     private void Dash(InputAction.CallbackContext ctx)
@@ -236,6 +236,7 @@ public class InputController : MonoBehaviour
         playerMovement.Dash.performed += Dash;
 
         playerMovement.Fire.performed += LeftClick;
+        playerMovement.RightClick.performed += RightClick;
     }
     private void OnDisable()
     {
@@ -244,5 +245,6 @@ public class InputController : MonoBehaviour
         playerMovement.Dash.performed -= Dash;
 
         playerMovement.Fire.performed -= LeftClick;
+        playerMovement.RightClick.performed -= RightClick;
     }
 }

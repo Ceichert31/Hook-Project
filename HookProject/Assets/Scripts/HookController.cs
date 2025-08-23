@@ -44,5 +44,7 @@ public class HookController : MonoBehaviour
         
         //Reparent hook object to hook holder/player
         //move hook back to player
+        
+        ctx.HookRemoved(sledHook.transform);
     }
 }

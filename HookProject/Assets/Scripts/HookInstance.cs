@@ -1,9 +1,13 @@
 using UnityEngine;
+using DG.Tweening;
 /// <summary>
 /// Manages the line renderer from the player to the hook
 /// </summary>
 public class HookInstance : MonoBehaviour
 {
+    [SerializeField]
+    private float returnTime = 0.3f;
+    
     private Transform parentObject;
     private LineRenderer ropeRenderer;
 
@@ -11,7 +15,7 @@ public class HookInstance : MonoBehaviour
     {
         ropeRenderer = GetComponent<LineRenderer>();
         parentObject = transform.parent;
-        PlaceObject(false);
+        EnableLineRenderer(false);
     }
 
     private void Update()
@@ -20,8 +24,22 @@ public class HookInstance : MonoBehaviour
         ropeRenderer.SetPosition(1, transform.position);
     }
 
-    public void PlaceObject(bool isPlaced)
+    /// <summary>
+    /// Flags whether the line renderer should be visible or not
+    /// </summary>
+    /// <param name="isPlaced">The visibility flag</param>
+    public void EnableLineRenderer(bool isPlaced)
     {
         ropeRenderer.enabled = isPlaced;
+    }
+    /// <summary>
+    /// Resets the hooks parent and moves the hook back to its original position
+    /// </summary>
+    public void ResetHookParent()
+    {
+        EnableLineRenderer(false);
+        DOTween.CompleteAll();
+        transform.parent = parentObject;
+        transform.DOLocalMove(Vector3.zero, returnTime);
     }
 }

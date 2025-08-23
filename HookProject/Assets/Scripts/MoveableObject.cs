@@ -183,7 +183,7 @@ public class MoveableObject : MonoBehaviour, IHookable
             snowDisplacementParticle.Play();
         }
 
-        hook.GetComponent<HookInstance>().PlaceObject(true);
+        hook.GetComponent<HookInstance>().EnableLineRenderer(true);
 
         //Move hook from player to sled anchor point
         hook.parent = hookAnchorPoint;
@@ -191,8 +191,18 @@ public class MoveableObject : MonoBehaviour, IHookable
         hook.DOLocalMove(Vector3.zero, 0.3f).SetEase(easeMode);
         CameraShakeManager.Instance.ShakeCamera(0.3f, 0.3f, easeMode);
     }
+    public void HookRemoved(Transform hook)
+    {
+        if (currentHookNum <= 0) return;
+        
+        currentHookNum--;
+        
+        snowDisplacementParticle.Stop();
+        
+        hook.GetComponent<HookInstance>().ResetHookParent();
+    }
 
-    /// <summary>
+    /*/// <summary>
     ///     Lets an object know a hook has been removed
     /// </summary>
     [Button("Remove Hook")]
@@ -211,7 +221,7 @@ public class MoveableObject : MonoBehaviour, IHookable
         {
             snowDisplacementParticle.Stop();
         }
-    }
+    }*/
 
     private void UpdateMovement()
     {
@@ -343,5 +353,5 @@ public class MoveableObject : MonoBehaviour, IHookable
 public interface IHookable
 {
     public void HookAdded(Transform hook);
-    public void HookRemoved();
+    public void HookRemoved(Transform hook);
 }
