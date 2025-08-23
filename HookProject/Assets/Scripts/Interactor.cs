@@ -1,7 +1,6 @@
 using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum InteractionState
 {
@@ -21,14 +20,9 @@ public class Interactor : MonoBehaviour
     [Layer]
     [SerializeField]
     private int hookLayer;  
-    
-    [FormerlySerializedAs("hookLayerMask")]
+
     [SerializeField]
     private LayerMask interactableLayers;
-    
-    [Layer]
-    [SerializeField]
-    private int interactLayer;
 
     [SerializeField]
     private Transform raycastOrigin;
@@ -39,6 +33,7 @@ public class Interactor : MonoBehaviour
     private HookController hookController;
     private SledHookVisualController sledHookController;
     
+    //Input flags
     private bool canInteract;
     private bool canRemoveHook;
 
@@ -107,7 +102,7 @@ public class Interactor : MonoBehaviour
         if (!canRemoveHook) return;
         canRemoveHook = false;
         sledHookController.SetHookedState(false);
-        //Remove hook
+        hookController.RemoveHook(instance);
     }
 
     /// <summary>
@@ -116,8 +111,10 @@ public class Interactor : MonoBehaviour
     /// <param name="hit">The collision point of the raycast</param>
     private void IsSurfaceInteractable(RaycastHit hit)
     {
+        return;
         //Execute interact logic on object
-        if (hit.transform.gameObject.layer != interactLayer) return;
+        //NOTE INCOMPLETE
+        if (hit.transform.gameObject.layer != interactableLayers.value) return;
 
         if (!hit.transform.gameObject.TryGetComponent(out IInteractable instance)) return;
         if (!canInteract) return;
@@ -126,21 +123,28 @@ public class Interactor : MonoBehaviour
     }
     
     /// <summary>
-    /// Player input to allow hook input
+    /// Signal from input controller to allow hook placement
     /// </summary>
-    /// <param name="ctx"></param>
-    public void HookInput(VoidEvent ctx)
+    /// <param name="ctx">Void context</param>
+    public void PlaceHook_Input(VoidEvent ctx)
     {
         canInteract = true;
         Invoke(nameof(ResetCanHook), RESET_INPUT_TIME);
     }
 
+    /// <summary>
+    /// Signal from input controller to allow hook removal
+    /// </summary>
+    /// <param name="ctx">Void context</param>
     public void RemoveHook_Input(VoidEvent ctx)
     {
         canRemoveHook = true;
         Invoke(nameof(ResetCanHook), RESET_INPUT_TIME);
     }
 
+    /// <summary>
+    /// Resets player input flags
+    /// </summary>
     private void ResetCanHook()
     {
         canInteract = false;

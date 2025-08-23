@@ -37,7 +37,7 @@ public class HookController : MonoBehaviour
         ctx.HookAdded(sledHook.transform);
     }
 
-    public void DisposeHook(VoidEvent ctx)
+    public void RemoveHook(IHookable ctx)
     {
         //Remove oldest hook
         //GameObject instance = objectPool.GetOldestInstance();

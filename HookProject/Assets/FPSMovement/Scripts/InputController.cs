@@ -7,7 +7,8 @@ public class InputController : MonoBehaviour
 {
     [Header("Event Channel Reference")]
     [SerializeField] private FOVEventChannel fovEventChannel;
-    [SerializeField] private VoidEventChannel hookChannel;
+    [SerializeField] private VoidEventChannel leftInputChannel;
+    [SerializeField] private VoidEventChannel rightInputChannel;
 
     [Header("Camera Settings")]
     [SerializeField] private float sensitivity = 15f;
@@ -110,7 +111,7 @@ public class InputController : MonoBehaviour
         //Read player input
         moveInput = playerMovement.Move?.ReadValue<Vector2>() ?? Vector2.zero;
 
-        //Project two vectors onto an orthagonal plane and multiply them by the players x and y inputs
+        //Project two vectors onto an orthogonal plane and multiply them by the players x and y inputs
         Vector3 moveDirection =
             (Vector3.ProjectOnPlane(transform.forward, Vector3.up) * moveInput.y +
             Vector3.ProjectOnPlane(transform.right, Vector3.up) * moveInput.x);
@@ -150,7 +151,7 @@ public class InputController : MonoBehaviour
             //Set the offset force of the floating rigidbody
             yOffsetForce = Vector3.up * (yOffsetError * offsetStrength - yOffsetVelocity * offsetDamper);
         }
-        //Calculate the combinded force between direction and offset
+        //Calculate the combined force between direction and offset
         Vector3 combinedForces = moveForce + yOffsetForce + outsideForce;
 
         //Calculate damping forces by multiplying the drag and player velocity
@@ -166,7 +167,7 @@ public class InputController : MonoBehaviour
     /// <param name="ctx"></param>
     public void AddForceToPlayer(VectorEvent ctx)
     {
-        //Wont work if we have multiple objects, they would overwrite each other 
+        //Won't work if we have multiple objects, they would overwrite each other 
         //Do we need a controller for all object forces?
 
         //Add force to player
@@ -182,7 +183,7 @@ public class InputController : MonoBehaviour
     }
 
     //Camera movement
-    void LateUpdate() => Look();
+    private void LateUpdate() => Look();
     private void Look()
     {
         //Check if player is looking too far up or down
@@ -218,10 +219,14 @@ public class InputController : MonoBehaviour
     }
     private void ResetDash() => canDash = true;
 
-    VoidEvent voidEvent;
+    private VoidEvent voidEvent;
     private void LeftClick(InputAction.CallbackContext ctx)
     {
-        hookChannel.CallEvent(voidEvent);
+        leftInputChannel.CallEvent(voidEvent);
+    }
+    private void RightClick(InputAction.CallbackContext ctx)
+    {
+        rightInputChannel.CallEvent(voidEvent);
     }
 
     private void OnEnable()
