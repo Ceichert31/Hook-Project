@@ -38,5 +38,8 @@ public class HookController : MonoBehaviour
     {
         //Remove oldest hook
         //GameObject instance = objectPool.GetOldestInstance();
+        
+        //Reparent hook object to hook holder/player
+        //move hook back to player
     }
 }

@@ -25,7 +25,8 @@ public class Interactor : MonoBehaviour
     [SerializeField]
     private float raycastRange = 5.0f;
 
-    private bool canHook;
+    private bool canPlaceHook;
+    private bool canRemoveHook;
     private bool isSledHookRaised;
 
     private HookController hookController;
@@ -63,12 +64,16 @@ public class Interactor : MonoBehaviour
             if (hit.transform.gameObject.TryGetComponent(out IHookable instance))
             {
                 //Player interacts state
-                if (canHook)
+                if (canPlaceHook)
                 {
-                    canHook = false;
+                    canPlaceHook = false;
                     sledHookController.SetHookedState(true);
                     hookController.PlaceHook(instance);
                 }
+                if (!canRemoveHook) return;
+                canRemoveHook = false;
+                sledHookController.SetHookedState(false);
+                //Remove hook
             }
             //Raise sled hook when looking at interactable
             if (isSledHookRaised) return;
@@ -85,16 +90,26 @@ public class Interactor : MonoBehaviour
             sledHookController.LowerSledHook();
         }
     }
-
+    private const float RESET_INPUT_TIME = 0.05f;
     /// <summary>
     /// Player input to allow hook input
     /// </summary>
     /// <param name="ctx"></param>
     public void HookInput(VoidEvent ctx)
     {
-        canHook = true;
-        Invoke(nameof(ResetCanHook), 0.05f);
+        canPlaceHook = true;
+        Invoke(nameof(ResetCanHook), RESET_INPUT_TIME);
     }
 
-    private void ResetCanHook() => canHook = false;
+    public void RemoveHook_Input(VoidEvent ctx)
+    {
+        canRemoveHook = true;
+        Invoke(nameof(ResetCanHook), RESET_INPUT_TIME);
+    }
+
+    private void ResetCanHook()
+    {
+        canPlaceHook = false;
+        canRemoveHook = false;
+    } 
 }
