@@ -4,6 +4,9 @@ using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// A physics script that can be hooked onto and dragged
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class MoveableObject : MonoBehaviour, IHookable
 {
@@ -106,7 +109,7 @@ public class MoveableObject : MonoBehaviour, IHookable
 
     private Vector3 targetDirection;
 
-    private Vector3 Target
+    private static Vector3 Target
     {
         get
         {

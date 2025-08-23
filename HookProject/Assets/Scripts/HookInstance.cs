@@ -8,6 +8,7 @@ public class HookInstance : MonoBehaviour
     [SerializeField]
     private float returnTime = 0.3f;
     
+    private Transform defaultHookPosition;
     private Transform parentObject;
     private LineRenderer ropeRenderer;
 
@@ -15,6 +16,7 @@ public class HookInstance : MonoBehaviour
     {
         ropeRenderer = GetComponent<LineRenderer>();
         parentObject = transform.parent;
+        defaultHookPosition = transform.parent.GetChild(1);
         EnableLineRenderer(false);
     }
 
@@ -40,6 +42,6 @@ public class HookInstance : MonoBehaviour
         EnableLineRenderer(false);
         DOTween.CompleteAll();
         transform.parent = parentObject;
-        transform.DOLocalMove(Vector3.zero, returnTime);
+        transform.DOLocalMove(defaultHookPosition.position, returnTime);
     }
 }

@@ -85,7 +85,7 @@ public class InputController : MonoBehaviour
     public bool ApplyMovementEffects { get { return applyMovementEffects; } }
     public Vector2 MoveInput { get { return moveInput; } }
 
-    void Awake()
+    private void Awake()
     {
         //Initialize Controls
         playerControls = new PlayerControls();
@@ -99,13 +99,13 @@ public class InputController : MonoBehaviour
         offsetRayDistance += heightOffset;
     }
 
-    void Update()
+    private void Update()
     {
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, out groundHit, offsetRayDistance, groundLayer);
     }
 
     //Movement
-    void FixedUpdate() => Move();
+    private void FixedUpdate() => Move();
     private Vector3 MoveDirection()
     {
         //Read player input
@@ -233,7 +233,7 @@ public class InputController : MonoBehaviour
     {
         playerMovement.Enable();
 
-        playerMovement.Dash.performed += Dash;
+        //playerMovement.Dash.performed += Dash;
 
         playerMovement.Fire.performed += LeftClick;
         playerMovement.RightClick.performed += RightClick;
@@ -242,7 +242,7 @@ public class InputController : MonoBehaviour
     {
         playerMovement.Disable();
 
-        playerMovement.Dash.performed -= Dash;
+        //playerMovement.Dash.performed -= Dash;
 
         playerMovement.Fire.performed -= LeftClick;
         playerMovement.RightClick.performed -= RightClick;
