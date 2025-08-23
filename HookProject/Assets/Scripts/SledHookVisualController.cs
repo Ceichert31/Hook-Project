@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -67,7 +66,7 @@ public class SledHookVisualController : MonoBehaviour
     /// <summary>
     /// Animates the sled hook upwards and enables it's renderer
     /// </summary>
-    public void RaiseSledHook()
+    private void RaiseSledHook()
     {
         if (isHooked) return;
         
@@ -81,7 +80,7 @@ public class SledHookVisualController : MonoBehaviour
     /// <summary>
     /// Sets timer to lower sled hook
     /// </summary>
-    public void LowerSledHook()
+    private void LowerSledHook()
     {
         if (isHooked) return;
         

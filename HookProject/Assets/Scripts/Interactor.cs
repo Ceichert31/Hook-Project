@@ -1,6 +1,7 @@
 using EventChannels;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum InteractionState
 {
@@ -21,6 +22,10 @@ public class Interactor : MonoBehaviour
     [SerializeField]
     private int hookLayer;  
     
+    [FormerlySerializedAs("hookLayerMask")]
+    [SerializeField]
+    private LayerMask interactableLayers;
+    
     [Layer]
     [SerializeField]
     private int interactLayer;
@@ -34,7 +39,7 @@ public class Interactor : MonoBehaviour
     private HookController hookController;
     private SledHookVisualController sledHookController;
     
-    private bool canPlaceHook;
+    private bool canInteract;
     private bool canRemoveHook;
 
     private InteractionState previousState;
@@ -56,20 +61,23 @@ public class Interactor : MonoBehaviour
                 raycastOrigin.forward,
                 out RaycastHit hit,
                 raycastRange,
-                hookLayer
+                interactableLayers
             )
         )
         {
             IsSurfaceHookable(hit);
             IsSurfaceInteractable(hit);
-            
-            if (currentState != previousState)
-                sledHookController.UpdateInteractionState(currentState);
         }
         else
         {
             currentState = InteractionState.None;
         }
+
+        //Update state information if state has changed
+        if (currentState == previousState) return;
+        
+        sledHookController.UpdateInteractionState(currentState);
+        previousState = currentState;
     }
 
     /// <summary>
@@ -85,9 +93,9 @@ public class Interactor : MonoBehaviour
         currentState = InteractionState.Hookable;
             
         //Player left-click input
-        if (canPlaceHook)
+        if (canInteract)
         {
-            canPlaceHook = false;
+            canInteract = false;
                 
             sledHookController.SetHookedState(true);
             hookController.PlaceHook(instance);
@@ -111,10 +119,10 @@ public class Interactor : MonoBehaviour
         //Execute interact logic on object
         if (hit.transform.gameObject.layer != interactLayer) return;
 
-        if (hit.transform.gameObject.TryGetComponent(out IInteractable instance))
-        {
-            instance.Interact();
-        }
+        if (!hit.transform.gameObject.TryGetComponent(out IInteractable instance)) return;
+        if (!canInteract) return;
+        
+        instance.Interact();
     }
     
     /// <summary>
@@ -123,7 +131,7 @@ public class Interactor : MonoBehaviour
     /// <param name="ctx"></param>
     public void HookInput(VoidEvent ctx)
     {
-        canPlaceHook = true;
+        canInteract = true;
         Invoke(nameof(ResetCanHook), RESET_INPUT_TIME);
     }
 
@@ -135,7 +143,7 @@ public class Interactor : MonoBehaviour
 
     private void ResetCanHook()
     {
-        canPlaceHook = false;
+        canInteract = false;
         canRemoveHook = false;
     } 
 }
