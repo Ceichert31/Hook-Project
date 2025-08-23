@@ -73,6 +73,6 @@ public class SledHookVisualController : MonoBehaviour
 
     private void DisableSledHook()
     {
-        sledHookRenderer.enabled = true;
+        sledHookRenderer.enabled = false;
     }
 }
