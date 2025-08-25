@@ -25,9 +25,18 @@ public class StylizedDayNightCycle : MonoBehaviour
     private Light mainLight;
 
     [SerializeField]
+    private Light secondaryLight;
+
+    [SerializeField]
     private DayNightPreset preset;
 
-    private const float TOTALDAYTIME = 24f;
+    [SerializeField]
+    private Vector3 lightRotation;
+
+    private const float TOTAL_DAYTIME = 24f;
+    private const float TOTAL_ROTATION = 360f;
+    private const float MIN_ROTATION = 35f;
+    private const float MAX_ROTATION = 145f;
 
     private void Update()
     {
@@ -37,12 +46,12 @@ public class StylizedDayNightCycle : MonoBehaviour
         if (Application.isPlaying)
         {
             //Add time
-            timeOfDay += (100 * Time.deltaTime) * timeSpeedMultiplier;
+            timeOfDay += Time.deltaTime * timeSpeedMultiplier;
 
             //Clamp
-            timeOfDay %= TOTALDAYTIME;
+            timeOfDay %= TOTAL_DAYTIME;
 
-            UpdateLighting(timeOfDay / TOTALDAYTIME);
+            UpdateLighting(timeOfDay / TOTAL_DAYTIME);
         }
     }
 
@@ -56,12 +65,24 @@ public class StylizedDayNightCycle : MonoBehaviour
         RenderSettings.fogColor = preset.fogColor.Evaluate(timePercent);
         RenderSettings.ambientLight = preset.ambientLightColor.Evaluate(timePercent);
         Camera.main.backgroundColor = preset.SkyboxColor.Evaluate(timePercent);
-        mainLight.color = preset.lightingColor.Evaluate(timePercent);
+        mainLight.color = preset.sunColor.Evaluate(timePercent);
+        secondaryLight.color = preset.moonColor.Evaluate(timePercent);
+
+        float finalRotation = (timePercent * TOTAL_ROTATION);
+        //finalRotation = Mathf.Clamp(finalRotation, MIN_ROTATION, MAX_ROTATION);
+
+        mainLight.transform.localRotation = Quaternion.Euler(
+                    new(
+                        finalRotation - lightRotation.x,
+                        lightRotation.y,
+                        lightRotation.z
+                    )
+                );
     }
 
     private void OnValidate()
     {
-        UpdateLighting(timeOfDay / TOTALDAYTIME);
+        UpdateLighting(timeOfDay / TOTAL_DAYTIME);
     }
 
 }

@@ -5,6 +5,7 @@ public class DayNightPreset : ScriptableObject
 {
     public Gradient fogColor;
     public Gradient SkyboxColor;
-    public Gradient lightingColor;
+    public Gradient sunColor;
+    public Gradient moonColor;
     public Gradient ambientLightColor;
 }
