@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogColor: {r: 0.10389222, g: 0.10540522, b: 0.106918216, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.10389222, g: 0.10540522, b: 0.106918216, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -8448,6 +8448,26 @@ PrefabInstance:
       propertyPath: returnTime
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.106918216
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.10540522
+      objectReference: {fileID: 0}
+    - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.10389222
+      objectReference: {fileID: 0}
     - target: {fileID: 8939591259619301516, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: leftInputChannel
       value: 
@@ -8499,7 +8519,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.10389222, g: 0.10540522, b: 0.106918216, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
@@ -14794,46 +14814,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2192571159848651687, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: ff05bb204a20eb94084b0a5abeacd450, type: 2}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: ShapeModule.type
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: ShapeModule.angle
-      value: 25.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: ShapeModule.arc.value
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: ShapeModule.radius.value
-      value: 8.94
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: ShapeModule.radiusThickness
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: InitialModule.startSize.minScalar
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 6921804001419086131, guid: ba237248d749d5847972f1013b8229d2, type: 3}
       propertyPath: m_Name
       value: WindParticle
@@ -22217,16 +22197,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 1395002827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96fa2d798b792a94cadd4698c4fb89b0, type: 3}
+  m_Script: {fileID: 11500000, guid: c824b59a736a3e9478c1e8ee8dd8af32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pauseTime: 0
-  timeOfDay: 4
-  timeSpeedMultiplier: 0.03
-  defaultTimeOfDay: 4
+  timeOfDay: 0
+  timeSpeedMultiplier: 1
+  defaultTimeOfDay: 0
   advanceTimeBy: 12
-  lightRotation: {x: 90, y: 0, z: 0}
-  sunLight: {fileID: 410087040}
+  skyColorGradient:
+    serializedVersion: 2
+    key0: {r: 0.10389222, g: 0.10540522, b: 0.106918216, a: 1}
+    key1: {r: 0.13059206, g: 0.16191031, b: 0.19496846, a: 1}
+    key2: {r: 0.3515485, g: 0.4232583, b: 0.49685526, a: 0}
+    key3: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
+    key4: {r: 0, g: 0.20784314, b: 0.40392157, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 9830
+    ctime2: 13107
+    ctime3: 19005
+    ctime4: 65535
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: 0
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
+  mainLight: {fileID: 410087040}
+  preset: {fileID: 11400000, guid: bd971be0d9382224aafc061bcad38746, type: 2}
 --- !u!1001 &1399253613
 PrefabInstance:
   m_ObjectHideFlags: 0
