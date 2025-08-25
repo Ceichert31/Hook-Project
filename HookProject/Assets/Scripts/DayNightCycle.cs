@@ -28,6 +28,9 @@ public class DayNightCycle : MonoBehaviour
     private Vector3 lightRotation;
 
     [SerializeField]
+    private Vector2 shadowFadeTimes;
+
+    [SerializeField]
     private Light sunLight;
 
     [SerializeField]
