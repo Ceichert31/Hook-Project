@@ -104,8 +104,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   moonColor:
     serializedVersion: 2
-    key0: {r: 0, g: 0.20784314, b: 0.40392157, a: 1}
-    key1: {r: 0, g: 0.20784314, b: 0.40392157, a: 1}
+    key0: {r: 0.25258097, g: 0.34053028, b: 0.41509432, a: 1}
+    key1: {r: 0.2509804, g: 0.34117648, b: 0.41568628, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}

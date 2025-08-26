@@ -43,5 +43,6 @@ public class HookInstance : MonoBehaviour
         DOTween.CompleteAll();
         transform.parent = parentObject;
         transform.DOLocalMove(defaultHookPosition.position, returnTime);
+        transform.eulerAngles.Set(0, 90, 0);
     }
 }

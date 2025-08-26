@@ -8851,7 +8851,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 0, g: 0.20784314, b: 0.40392157, a: 1}
+  m_Color: {r: 0.2509804, g: 0.34117648, b: 0.41568628, a: 1}
   m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
@@ -22555,8 +22555,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseTime: 0
   timeOfDay: 24
-  timeSpeedMultiplier: 1
-  defaultTimeOfDay: 0
+  timeSpeedMultiplier: 0.01
+  defaultTimeOfDay: 6
   advanceTimeBy: 12
   mainLight: {fileID: 410087040}
   secondaryLight: {fileID: 422499309}
