@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.10196078, g: 0.105882354, b: 0.105882354, a: 1}
+  m_FogColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.03
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.82068175, g: 0.8276277, b: 0.8341805, a: 1}
+  m_AmbientSkyColor: {r: 0.92378974, g: 0.9267418, b: 0.9295267, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -8446,7 +8446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4287018053509733803, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: returnTime
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_ClearFlags
@@ -8458,15 +8458,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_BackGroundColor.b
-      value: 0.105882354
+      value: 0.9056604
       objectReference: {fileID: 0}
     - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 0.105882354
+      value: 0.9056604
       objectReference: {fileID: 0}
     - target: {fileID: 7802647240829371144, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_BackGroundColor.r
-      value: 0.10196078
+      value: 0.9056604
       objectReference: {fileID: 0}
     - target: {fileID: 8244151488553780583, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8602,7 +8602,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
+  m_LocalRotation: {x: 0.52249855, y: 0, z: 0, w: 0.85264015}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -22554,9 +22554,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseTime: 0
-  timeOfDay: 24
+  timeOfDay: 10.2
   timeSpeedMultiplier: 0.01
-  defaultTimeOfDay: 6
+  defaultTimeOfDay: 0
   advanceTimeBy: 12
   mainLight: {fileID: 410087040}
   secondaryLight: {fileID: 422499309}

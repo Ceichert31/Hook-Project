@@ -11,6 +11,7 @@ public class HookInstance : MonoBehaviour
     private Transform defaultHookPosition;
     private Transform parentObject;
     private LineRenderer ropeRenderer;
+    private Vector3 defaultRotation = new Vector3(0, -90, 0);
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class HookInstance : MonoBehaviour
         EnableLineRenderer(false);
         DOTween.CompleteAll();
         transform.parent = parentObject;
-        transform.DOLocalMove(defaultHookPosition.position, returnTime);
-        transform.eulerAngles.Set(0, 90, 0);
+        transform.DOMove(defaultHookPosition.position, returnTime);
+        transform.localEulerAngles = defaultRotation;
     }
 }

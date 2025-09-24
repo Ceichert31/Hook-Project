@@ -190,7 +190,7 @@ public class MoveableObject : MonoBehaviour, IHookable
 
         //Move hook from player to sled anchor point
         hook.parent = hookAnchorPoint;
-        hook.eulerAngles = new Vector3(0, -90, 0);
+        hook.localEulerAngles = new Vector3(0, 90, 0);
         hook.DOLocalMove(Vector3.zero, 0.3f).SetEase(easeMode);
         CameraShakeManager.Instance.ShakeCamera(0.3f, 0.3f, easeMode);
     }
