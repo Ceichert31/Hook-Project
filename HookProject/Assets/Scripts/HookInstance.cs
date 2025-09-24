@@ -17,7 +17,7 @@ public class HookInstance : MonoBehaviour
     {
         ropeRenderer = GetComponent<LineRenderer>();
         parentObject = transform.parent;
-        defaultHookPosition = transform.parent.GetChild(1);
+        defaultHookPosition = transform.parent.GetChild(2);
         EnableLineRenderer(false);
     }
 
