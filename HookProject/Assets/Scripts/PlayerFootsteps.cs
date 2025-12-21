@@ -6,6 +6,9 @@ public class PlayerFootsteps : MonoBehaviour
     private float walkingSpeed = 3;
 
     [SerializeField]
+    private float footstepInterval = 2;
+
+    [SerializeField]
     private AudioPitcherSO snowFootstepAudio;
 
     float audioTimer = 0.0f;
@@ -13,8 +16,6 @@ public class PlayerFootsteps : MonoBehaviour
     private InputController inputController;
 
     private AudioSource source;
-
-    const float FOOTSTEP_INTERVAL = 1.0f;
 
     private void Awake()
     {
@@ -28,7 +29,7 @@ public class PlayerFootsteps : MonoBehaviour
         {
             audioTimer += walkingSpeed * Time.deltaTime;
 
-            if (audioTimer > FOOTSTEP_INTERVAL)
+            if (audioTimer > footstepInterval)
             {
                 //Reset timer and play sound effect
                 audioTimer = 0.0f;

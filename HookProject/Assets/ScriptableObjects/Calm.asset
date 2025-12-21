@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeatherPreset
   snowIntensity: 0
   gravity: 0.2
-  useRandomDirection: 1
+  useRandomDirection: 0
   windRotation: 0

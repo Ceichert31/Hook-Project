@@ -7,6 +7,10 @@ public class WeatherController : MonoBehaviour
 
     private ParticleSystem windParticle;
     private ParticleSystem snowParticle;
+
+    public float changeDirectionTime = 15f;
+    private float changeDirectionTimer;
+
     private void Start()
     {
         windParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
@@ -15,8 +19,6 @@ public class WeatherController : MonoBehaviour
 
     private void Update()
     {
-        transform.eulerAngles = new Vector3(0, preset.windRotation, 0);
-
         //Change force intensity for snow 
         var forceOverLifetime = snowParticle.forceOverLifetime;
         forceOverLifetime.xMultiplier = preset.snowIntensity;
@@ -24,5 +26,12 @@ public class WeatherController : MonoBehaviour
         //Change gravity for snow
         var mainModule = snowParticle.main;
         mainModule.gravityModifier = preset.gravity;
+
+        changeDirectionTimer += Time.deltaTime;
+        if (changeDirectionTimer > changeDirectionTime)
+        {
+            changeDirectionTimer = 0;
+            transform.Rotate(Vector3.up, preset.windRotation, Space.Self);
+        }   
     }
 }

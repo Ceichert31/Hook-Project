@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 836019824109279401}
+  - component: {fileID: 1090799724135440621}
   m_Layer: 0
   m_Name: WindSystem
   m_TagString: Untagged
@@ -33,6 +34,20 @@ Transform:
   - {fileID: 2722226055133777896}
   m_Father: {fileID: 4184258596113817863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1090799724135440621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161269692086240891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abacd2ed01b3d743a99e923eaa073ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeatherController
+  preset: {fileID: 11400000, guid: 4dc19e7916560eb4f91b65a7eba2f6d5, type: 2}
+  changeDirectionTime: 30
 --- !u!1 &2390676662645113971
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +217,7 @@ MonoBehaviour:
   sensitivity: 9
   minSensitivity: 1
   maxSensitivity: 15
-  walkSpeed: 45
+  walkSpeed: 35
   advancedSettings: 1
   maxSlopeAngle: 45
   heightOffset: 1.5
@@ -594,7 +609,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -982,7 +997,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.15
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2149,7 +2164,7 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2464,14 +2479,14 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    inWorldSpace: 0
+    inWorldSpace: 1
   InheritVelocityModule:
     enabled: 0
-    m_Mode: 0
+    m_Mode: 1
     m_Curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 200
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2578,11 +2593,11 @@ ParticleSystem:
         m_RotationOrder: 4
     m_Range: {x: 0, y: 1}
   ForceModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 2
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -10760,7 +10775,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
       propertyPath: ShapeModule.radiusThickness
-      value: 0
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543222483316696788, guid: ba237248d749d5847972f1013b8229d2, type: 3}
+      propertyPath: InheritVelocityModule.m_Curve.scalar
+      value: 5.24
       objectReference: {fileID: 0}
     - target: {fileID: 6921804001419086131, guid: ba237248d749d5847972f1013b8229d2, type: 3}
       propertyPath: m_Name

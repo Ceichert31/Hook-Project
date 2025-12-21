@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fd5af7dbc14bcc4080b2de0d45c01cd, type: 3}
   m_Name: SnowStorm
   m_EditorClassIdentifier: Assembly-CSharp::WeatherPreset
-  snowIntensity: 2
+  snowIntensity: 5
   gravity: 0.5
-  useRandomDirection: 1
-  windRotation: 0
+  useRandomDirection: 0
+  windRotation: 75
