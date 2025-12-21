@@ -19,6 +19,8 @@ public class WeatherController : MonoBehaviour
 
     private void Update()
     {
+        Debug.DrawRay(windParticle.gameObject.transform.position, windParticle.gameObject.transform.forward * 5, Color.red);
+
         //Change force intensity for snow 
         var forceOverLifetime = snowParticle.forceOverLifetime;
         forceOverLifetime.xMultiplier = preset.snowIntensity;

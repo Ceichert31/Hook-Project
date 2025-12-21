@@ -26,6 +26,8 @@ public class InputController : MonoBehaviour
     [Tooltip("The speed the player moves at")]
     [SerializeField] private float walkSpeed = 60f;
 
+    [SerializeField] private float againstWindWalkSpeed = 20f;
+
     [SerializeField] private bool advancedSettings;
 
     [Tooltip("The maximum angle the player can walk up without losing speed")]
@@ -80,10 +82,15 @@ public class InputController : MonoBehaviour
     private bool isGrounded;
     private bool isMoving;
     private bool applyMovementEffects;
+    public bool againstWind;
+
     public bool IsGrounded { get { return isGrounded; } }
     public bool IsMoving { get { return isMoving; } }
     public bool ApplyMovementEffects { get { return applyMovementEffects; } }
     public Vector2 MoveInput { get { return moveInput; } }
+
+    [SerializeField]
+    private GameObject weatherSystem;
 
     private void Awake()
     {
@@ -102,6 +109,15 @@ public class InputController : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, out groundHit, offsetRayDistance, groundLayer);
+
+        if (Vector2.Dot(new Vector2(transform.forward.x, transform.forward.z), new Vector2(weatherSystem.transform.forward.x, weatherSystem.transform.forward.z)) > 0.8f)
+        {
+            againstWind = true;
+        }
+        else
+        {
+            againstWind = false;
+        }
     }
 
     //Movement
@@ -132,6 +148,12 @@ public class InputController : MonoBehaviour
 
         //Apply walk speed to the movement vector
         Vector3 moveForce = MoveDirection() * walkSpeed;
+
+        if (againstWind)
+        {
+            //Apply walk speed to the movement vector
+            moveForce = MoveDirection() * againstWindWalkSpeed;
+        }
 
         //Find the angle between the players up position and the groundHit
         float slopeAngle = Vector3.Angle(Vector3.up, groundHit.normal);
