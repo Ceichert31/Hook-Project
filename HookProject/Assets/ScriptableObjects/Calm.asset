@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd5af7dbc14bcc4080b2de0d45c01cd, type: 3}
+  m_Name: Calm
+  m_EditorClassIdentifier: Assembly-CSharp::WeatherPreset
+  snowIntensity: 0
+  gravity: 0.2
+  useRandomDirection: 1
+  windRotation: 0
