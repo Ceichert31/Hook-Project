@@ -1805,8 +1805,8 @@
     "m_ObjectId": "7813cf1c55574c7db32e2a1bf9ae4be1",
     "m_Title": "Apply Snow Color",
     "m_Position": {
-        "x": -1560.0,
-        "y": -244.0
+        "x": -1560.0001220703125,
+        "y": -243.99996948242188
     }
 }
 
@@ -1816,8 +1816,8 @@
     "m_ObjectId": "7cce34a9337d45d7811c0cdd7e56face",
     "m_Title": "Sample Noise Texture",
     "m_Position": {
-        "x": -3305.333251953125,
-        "y": -257.9999694824219
+        "x": -3305.33349609375,
+        "y": -257.99993896484377
     }
 }
 
@@ -2553,8 +2553,8 @@
     "m_ObjectId": "b6241e48251344d5a082c9efe10205b4",
     "m_Title": "Modify Height of local verticies",
     "m_Position": {
-        "x": -2020.66650390625,
-        "y": -789.9998779296875
+        "x": -2020.666748046875,
+        "y": -790.0
     }
 }
 
@@ -2993,8 +2993,8 @@
     "m_ObjectId": "e1f9c6e2ae394566ba6373cfc968b2e0",
     "m_Title": "Sample Render Texture",
     "m_Position": {
-        "x": -2807.999755859375,
-        "y": 285.99993896484377
+        "x": -2808.0,
+        "y": 286.0000305175781
     }
 }
 

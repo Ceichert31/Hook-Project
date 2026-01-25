@@ -8471,14 +8471,6 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 602665982459380406, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 602665982459380406, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.atime1
-      value: 16063
-      objectReference: {fileID: 0}
     - target: {fileID: 2390676662645113971, guid: b59b9ea62f378d04da1442badcd2d715, type: 3}
       propertyPath: m_Name
       value: FPSMovement
@@ -25244,7 +25236,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -26453,7 +26445,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 32896
+        atime1: 49730
         atime2: 65535
         atime3: 0
         atime4: 0

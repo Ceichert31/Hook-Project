@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SnowStorm
   m_EditorClassIdentifier: Assembly-CSharp::WeatherPreset
   snowIntensity: 5
-  gravity: 0.5
+  gravity: 0.4
   useRandomDirection: 0
   windRotation: 75

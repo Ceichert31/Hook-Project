@@ -65,7 +65,7 @@ Material:
     - _SnowBrightness: 3
     - _SnowDarkness: 2
     - _SnowScale: 155.66
-    - _VertexOffset: 0.009
+    - _VertexOffset: 0.01
     m_Colors:
     - _DisplacementColor: {r: 0.836478, g: 0.836478, b: 0.836478, a: 1}
     - _SnowColor: {r: 1, g: 1, b: 1, a: 0}
